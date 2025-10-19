@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	gcpScanner "github.com/guardian-nexus/auditkit/scanner/pkg/gcp"
 	awsScanner "github.com/guardian-nexus/auditkit/scanner/pkg/aws"
 	azureScanner "github.com/guardian-nexus/auditkit/scanner/pkg/azure"
 	"github.com/guardian-nexus/auditkit/scanner/pkg/integrations"
@@ -21,7 +22,7 @@ import (
 	"github.com/guardian-nexus/auditkit/scanner/pkg/mappings"
 )
 
-const CurrentVersion = "v0.6.8"
+const CurrentVersion = "v0.7.0"
 
 type ComplianceResult struct {
 	Timestamp       time.Time       `json:"timestamp"`
@@ -69,8 +70,8 @@ type ScorePoint struct {
 
 func main() {
 	var (
-		provider  = flag.String("provider", "aws", "Cloud provider: aws, azure (both with full SOC2/PCI support)")
-		profile   = flag.String("profile", "default", "AWS profile or Azure subscription to use")
+		provider  = flag.String("provider", "aws", "Cloud provider: aws, azure, gcp")
+		profile   = flag.String("profile", "default", "AWS profile, Azure subscription, or GCP project ID")
 		framework = flag.String("framework", "all", "Compliance framework: soc2, pci, cmmc, hipaa (limited), all")
 		format    = flag.String("format", "text", "Output format (text, json, html, pdf)")
 		output    = flag.String("output", "", "Output file (default: stdout)")
@@ -107,7 +108,7 @@ func main() {
 	case "update":
 		updater.CheckForUpdates()
 	case "version":
-		fmt.Printf("AuditKit %s - Multi-cloud compliance scanning (AWS, Azure, M365)\n", CurrentVersion)
+		fmt.Printf("AuditKit %s - Multi-cloud compliance scanning (AWS, Azure, GCP, M365)\n", CurrentVersion)
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown command: %s\n", command)
 		printUsage()
@@ -130,8 +131,8 @@ Usage:
   auditkit version               Show version
 
 Options:
-  -provider string   Cloud provider: aws, azure (default "aws")
-  -profile string    AWS profile or Azure subscription (default "default")
+  -provider string   Cloud provider: aws, azure, gcp (default "aws")
+  -profile string    AWS profile, Azure subscription, or GCP project (default "default")
   -framework string  Compliance framework: soc2, pci, cmmc, hipaa, 800-53, all (default "all")
   -format string     Output format (text, json, html, pdf) (default "text")
   -output string     Output file (default: stdout)
@@ -144,7 +145,7 @@ Options:
 Frameworks:
   soc2    SOC2 Type II Common Criteria (full coverage)
   pci     PCI-DSS v4.0 (full coverage)
-  cmmc    CMMC Level 1 (17 practices) & Level 2 (110 practices)
+  cmmc    CMMC Level 1 (17 practices)
   hipaa   HIPAA Security Rule (experimental)
   800-53  NIST 800-53 Rev 5 (via framework crosswalk)
   all     Run all available frameworks
@@ -162,6 +163,13 @@ Examples:
 
   # Azure PCI-DSS scan
   auditkit scan -provider azure -framework pci
+
+  # GCP SOC2 scan
+  auditkit scan -provider gcp -profile my-project-id -framework soc2
+  
+  # GCP with environment variable
+  export GOOGLE_CLOUD_PROJECT=my-project-id
+  auditkit scan -provider gcp -framework soc2
 
   # NIST 800-53 scan
   auditkit scan -provider aws -framework 800-53
@@ -427,7 +435,7 @@ func runScan(provider, profile, framework, format, output string, verbose bool, 
 
 	if !validFrameworks[strings.ToLower(framework)] {
 		fmt.Fprintf(os.Stderr, "Error: Invalid framework: %s\n", framework)
-		fmt.Fprintf(os.Stderr, "Valid options: soc2, pci, cmmc (Level 1 only), hipaa, 800-53, all\n")
+		fmt.Fprintf(os.Stderr, "Valid options: soc2, pci, cmmc (Level 1), hipaa, 800-53, all\n")
 		fmt.Fprintf(os.Stderr, "\n")
 		fmt.Fprintf(os.Stderr, "CMMC Level 2 requires upgrade to Pro:\n")
 		fmt.Fprintf(os.Stderr, "  Visit: https://auditkit.io/pro\n")
@@ -603,18 +611,51 @@ func performScan(provider, profile, framework string, verbose bool, services str
 		}
 		
 	case "gcp":
-		fmt.Println("GCP support coming Q1 2026")
-		fmt.Println("\nPlanned GCP checks:")
-		fmt.Println("  - Cloud Storage bucket policies")
-		fmt.Println("  - IAM & Service Account management")
-		fmt.Println("  - VPC firewall rules")
-		fmt.Println("  - Cloud KMS encryption")
-		fmt.Println("\nGet notified: https://auditkit.substack.com")
-		os.Exit(0)
+		// Get GCP project ID from profile flag or environment
+		projectID := profile
+		if projectID == "" || projectID == "default" {
+			projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+			if projectID == "" {
+				projectID = os.Getenv("GCP_PROJECT")
+			}
+		}
+
+		scanner, err := gcpScanner.NewScanner(projectID)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error initializing GCP scanner: %v\n", err)
+			fmt.Fprintf(os.Stderr, "\nMake sure you have GCP credentials configured:\n")
+			fmt.Fprintf(os.Stderr, "  gcloud auth application-default login\n")
+			fmt.Fprintf(os.Stderr, "  export GOOGLE_CLOUD_PROJECT=your-project-id\n")
+			fmt.Fprintf(os.Stderr, "\nOr use service account:\n")
+			fmt.Fprintf(os.Stderr, "  export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json\n")
+			os.Exit(1)
+		}
+		defer scanner.Close()
+
+		accountID = scanner.GetAccountID(ctx)
+
+		if verbose {
+			fmt.Fprintf(os.Stderr, "Scanning GCP Project: %s\n", accountID)
+			fmt.Fprintf(os.Stderr, "Framework: %s\n", strings.ToUpper(framework))
+		}
+
+		serviceList := strings.Split(services, ",")
+		if services == "all" {
+			serviceList = []string{"storage", "iam", "compute", "network", "sql", "kms", "logging"}
+		}
+
+		gcpResults, err := scanner.ScanServices(ctx, serviceList, verbose, framework)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Warning during GCP scan: %v\n", err)
+		}
+
+		for _, r := range gcpResults {
+			scanResults = append(scanResults, r)
+		}
 		
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown provider: %s\n", provider)
-		fmt.Fprintf(os.Stderr, "Supported providers: aws, azure\n")
+		fmt.Fprintf(os.Stderr, "Supported providers: aws, azure, gcp\n")
 		os.Exit(1)
 	}
 	
@@ -679,8 +720,27 @@ func performScan(provider, profile, framework string, verbose bool, services str
 					Frameworks:        azureResult.Frameworks,
 				}
 			}
+		case "gcp":
+			if gcpResult, ok := result.(gcpScanner.ScanResult); ok {
+				priority, impact := getPriorityAndImpact(gcpResult.Control, gcpResult.Severity, gcpResult.Status, framework)
+				control = ControlResult{
+					ID:                gcpResult.Control,
+					Name:              getControlName(gcpResult.Control),
+					Category:          getControlCategory(gcpResult.Control),
+					Severity:          gcpResult.Severity,
+					Status:            gcpResult.Status,
+					Evidence:          gcpResult.Evidence,
+					Remediation:       gcpResult.Remediation,
+					RemediationDetail: gcpResult.RemediationDetail,
+					Priority:          priority,
+					Impact:            impact,
+					ScreenshotGuide:   gcpResult.ScreenshotGuide,
+					ConsoleURL:        gcpResult.ConsoleURL,
+					Frameworks:        gcpResult.Frameworks,
+				}
+			}
 		}
-		
+
 		// Filter by framework if not "all"
 		if framework != "all" {
 			hasRequestedFramework := false
@@ -821,6 +881,21 @@ func showProgress(provider, profile string) {
 			return
 		}
 		accountID = scanner.GetAccountID(ctx)
+	case "gcp":
+		projectID := profile
+		if projectID == "" || projectID == "default" {
+			projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+			if projectID == "" {
+				projectID = os.Getenv("GCP_PROJECT")
+			}
+		}
+		scanner, err := gcpScanner.NewScanner(projectID)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			return
+		}
+		defer scanner.Close()
+		accountID = scanner.GetAccountID(ctx)
 	}
 	
 	homeDir, _ := os.UserHomeDir()
@@ -893,6 +968,21 @@ func compareScan(provider, profile string) {
 			return
 		}
 		accountID = scanner.GetAccountID(ctx)
+	case "gcp":
+		projectID := profile
+		if projectID == "" || projectID == "default" {
+			projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+			if projectID == "" {
+				projectID = os.Getenv("GCP_PROJECT")
+			}
+		}
+		scanner, err := gcpScanner.NewScanner(projectID)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			return
+		}
+		defer scanner.Close()
+		accountID = scanner.GetAccountID(ctx)
 	}
 	
 	homeDir, _ := os.UserHomeDir()
@@ -964,6 +1054,36 @@ func generateFixScript(provider, profile, output string) {
 	case "azure":
 		fmt.Println("Azure fix script generation coming soon")
 		return
+	case "gcp":
+		projectID := profile
+		if projectID == "" || projectID == "default" {
+			projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+			if projectID == "" {
+				projectID = os.Getenv("GCP_PROJECT")
+			}
+		}
+		scanner, err := gcpScanner.NewScanner(projectID)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			return
+		}
+		defer scanner.Close()
+		accountID = scanner.GetAccountID(ctx)
+		fmt.Printf("Scanning GCP Project %s to identify fixes...\n", accountID)
+		
+		services := []string{"storage", "iam", "network", "sql"}
+		scanResults, _ := scanner.ScanServices(ctx, services, false, "soc2")
+		
+		for _, result := range scanResults {
+			if gcpResult, ok := result.(gcpScanner.ScanResult); ok {
+				controls = append(controls, remediation.ControlResult{
+					Control:           gcpResult.Control,
+					Status:            gcpResult.Status,
+					Severity:          gcpResult.Severity,
+					RemediationDetail: gcpResult.RemediationDetail,
+				})
+			}
+		}
 	}
 	
 	if output == "" {
@@ -1025,6 +1145,34 @@ func runEvidenceTracker(provider, profile, output string) {
 				Control: result.Control,
 				Status:  result.Status,
 			})
+		}
+	case "gcp":
+		projectID := profile
+		if projectID == "" || projectID == "default" {
+			projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+			if projectID == "" {
+				projectID = os.Getenv("GCP_PROJECT")
+			}
+		}
+		scanner, err := gcpScanner.NewScanner(projectID)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			return
+		}
+		defer scanner.Close()
+		accountID = scanner.GetAccountID(ctx)
+		fmt.Printf("Scanning GCP Project %s...\n", accountID)
+		
+		services := []string{"storage", "iam", "network", "sql"}
+		scanResults, _ := scanner.ScanServices(ctx, services, false, "soc2")
+		
+		for _, result := range scanResults {
+			if gcpResult, ok := result.(gcpScanner.ScanResult); ok {
+				controls = append(controls, tracker.ControlResult{
+					Control: gcpResult.Control,
+					Status:  gcpResult.Status,
+				})
+			}
 		}
 	}
 	

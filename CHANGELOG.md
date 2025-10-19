@@ -2,6 +2,31 @@
 
 All notable changes to AuditKit will be documented in this file.
 
+## [v0.7.0] - 2025-10-18
+
+### Added
+- **GCP Provider Support** - Complete Google Cloud Platform scanning
+  - Cloud Storage (GCS) security checks (public access, encryption, versioning, logging)
+  - IAM security checks (service account keys, MFA, primitive roles)
+  - VPC Network security (firewall rules, default network, private access)
+  - Compute Engine security (disk encryption, public IPs, patch management)
+  - Cloud SQL security (public IP, backups, SSL enforcement)
+  - Cloud KMS security (key rotation)
+  - Cloud Logging security (audit logs, log retention)
+- Framework support for GCP: SOC2, PCI-DSS, CMMC Level 1, NIST 800-53
+- 20 automated security checks for GCP
+- Screenshot guides and remediation commands using `gcloud` CLI
+
+### Technical
+- Added complete GCP SDK integration
+- Framework wrapper files matching AWS/Azure structure
+- Unified multi-cloud reporting (AWS + Azure + GCP)
+
+### Documentation
+- GCP usage examples
+- GCP authentication methods
+- GCP required permissions
+
 ## [v0.6.8] - 2025-10-13
 
 ### Added
