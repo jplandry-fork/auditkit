@@ -21,7 +21,7 @@ All notable changes to AuditKit will be documented in this file.
   - GCP: 61 automated controls (CIS Google Cloud Platform Foundations)
   - Proactive security hardening complements compliance frameworks
   - Use `-framework cis-aws`, `-framework cis-azure`, `-framework cis-gcp`
-- **Enhanced CIS AWS Controls** (2025-11-03)
+- **Enhanced CIS AWS Controls** (2025-11-04)
   - NEW: CIS-1.3 - Credentials unused for 45+ days (automated)
   - NEW: CIS-1.16 - IAM policies on groups/roles only (automated)
   - NEW: CIS-5.8 - VPC peering routing least access (manual)
