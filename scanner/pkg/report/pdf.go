@@ -1,4 +1,3 @@
-// Path: /home/dijital/Documents/auditkit-all/auditkit-pro/scanner/pkg/report/pdf.go
 package report
 
 import (

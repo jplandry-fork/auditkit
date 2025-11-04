@@ -1,4 +1,3 @@
-// Path: /home/dijital/Documents/auditkit-all/auditkit/scanner/pkg/azure/checks/keyvault.go
 package checks
 
 import (
