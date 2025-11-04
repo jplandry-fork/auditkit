@@ -458,11 +458,11 @@ A: No. PCI-DSS is a minimum baseline. Many breached companies were PCI-compliant
 
 ## Next Steps
 
-- **[Run PCI-DSS technical scan ’](../getting-started.md)**
-- **[Compare to SOC2 ’](./soc2.md)**
-- **[Find QSA ’](https://www.pcisecuritystandards.org/assessors_and_solutions/qualified_security_assessors)**
-- **[Find ASV ’](https://www.pcisecuritystandards.org/assessors_and_solutions/approved_scanning_vendors)**
-- **[PCI SSC official site ’](https://www.pcisecuritystandards.org/)**
-- **[Download SAQs ’](https://www.pcisecuritystandards.org/document_library)**
+- **[Run PCI-DSS technical scan ](../getting-started.md)**
+- **[Compare to SOC2 ](./soc2.md)**
+- **[Find QSA ](https://www.pcisecuritystandards.org/assessors_and_solutions/qualified_security_assessors)**
+- **[Find ASV ](https://www.pcisecuritystandards.org/assessors_and_solutions/approved_scanning_vendors)**
+- **[PCI SSC official site ](https://www.pcisecuritystandards.org/)**
+- **[Download SAQs ](https://www.pcisecuritystandards.org/document_library)**
 
 **Remember:** AuditKit covers technical controls. Hire a QSA for complete validation and annual assessment.
