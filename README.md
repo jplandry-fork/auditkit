@@ -116,7 +116,7 @@ AuditKit scans your cloud infrastructure for compliance gaps and security miscon
 
 | Dashboard | Findings | Scan History |
 |-----------|----------|--------------|
-| ![Dashboard](./docs/examples/screenshots/auditkitwebgui-dashboard.png) | ![Findings](./docs/examples/screenshots/auditkitwebgui-findings.png) | ![Scan History](./docs/examples/screenshots/auditkitwebgui-scanhistory.png) |
+| <img src="./docs/examples/screenshots/auditkitwebgui-dashboard.png" width="280" alt="Dashboard"> | <img src="./docs/examples/screenshots/auditkitwebgui-findings.png" width="280" alt="Findings"> | <img src="./docs/examples/screenshots/auditkitwebgui-scanhistory.png" width="280" alt="Scan History"> |
 
 ### Quick Start (Pro Desktop)
 ```bash
