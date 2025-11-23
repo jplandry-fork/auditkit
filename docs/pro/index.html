@@ -550,19 +550,25 @@
 
             <!-- Screenshot Gallery -->
             <div style="max-width: 1000px; margin: 0 auto 40px;">
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start;">
                     <div style="text-align: center; cursor: pointer;" onclick="openLightbox(0)">
-                        <img src="../examples/screenshots/auditkitwebgui-dashboard.png" alt="Dashboard" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s;">
+                        <div style="aspect-ratio: 16/10; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                            <img src="../examples/screenshots/auditkitwebgui-dashboard.png" alt="Dashboard" style="width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.2s;">
+                        </div>
                         <p style="margin-top: 10px; font-weight: 600; color: #333;">Dashboard</p>
                         <p style="font-size: 0.9em; color: #666;">Real-time scores & trends</p>
                     </div>
                     <div style="text-align: center; cursor: pointer;" onclick="openLightbox(1)">
-                        <img src="../examples/screenshots/auditkitwebgui-findings.png" alt="Findings" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s;">
+                        <div style="aspect-ratio: 16/10; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                            <img src="../examples/screenshots/auditkitwebgui-findings.png" alt="Findings" style="width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.2s;">
+                        </div>
                         <p style="margin-top: 10px; font-weight: 600; color: #333;">Findings Explorer</p>
                         <p style="font-size: 0.9em; color: #666;">Search & filter by severity</p>
                     </div>
                     <div style="text-align: center; cursor: pointer;" onclick="openLightbox(2)">
-                        <img src="../examples/screenshots/auditkitwebgui-scanhistory.png" alt="Scan History" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s;">
+                        <div style="aspect-ratio: 16/10; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                            <img src="../examples/screenshots/auditkitwebgui-scanhistory.png" alt="Scan History" style="width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.2s;">
+                        </div>
                         <p style="margin-top: 10px; font-weight: 600; color: #333;">Scan History</p>
                         <p style="font-size: 0.9em; color: #666;">Browse all past scans</p>
                     </div>
