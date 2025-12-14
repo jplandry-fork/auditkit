@@ -2,6 +2,16 @@
 
 All notable changes to AuditKit will be documented in this file.
 
+## [v0.7.1] - 2025-12-14
+
+### Fixed
+- **GCP PCI-DSS** - Connected comprehensive PCI-DSS v4.0 implementation covering all 12 requirements (was using filtered basic checks)
+- **Azure PCI-DSS** - Connected comprehensive AzurePCIChecks implementation (was using filtered basic checks)
+- **AWS Credential Report** - Fixed CSV parsing for IAM credential reports in unused credentials check (was returning empty results)
+- **Azure VM Public IP** - Added NetworkInterfaces and PublicIPAddresses client integration for accurate public IP detection
+
+These fixes improve compliance check accuracy across all three major cloud providers.
+
 ## [v0.7.0] - 2025-11-04
 
 ### Added
