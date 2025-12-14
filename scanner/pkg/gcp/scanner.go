@@ -209,37 +209,33 @@ func (s *GCPScanner) runPCIChecks(ctx context.Context, verbose bool) []ScanResul
 
 	if verbose {
 		fmt.Println("Running PCI-DSS v4.0 checks for GCP...")
-		fmt.Println("Note: PCI-DSS specific checks not yet implemented for GCP")
-		fmt.Println("Using basic checks with PCI framework mappings...")
+		fmt.Println("Checking all 12 PCI-DSS requirements...")
 	}
 
-	// PCI-DSS checks not yet implemented for GCP, use basic checks with PCI mappings
-	basicChecks := []checks.Check{
-		checks.NewIAMChecks(s.iamClient, s.projectID),
-		checks.NewStorageChecks(s.storageClient, s.projectID),
-		checks.NewComputeChecks(s.computeService, s.projectID),
-		checks.NewNetworkChecks(s.computeService, s.projectID),
-		checks.NewSQLChecks(s.sqlService, s.projectID),
-	}
+	// Use the comprehensive GCPPCIChecks implementation
+	pciChecker := checks.NewGCPPCIChecks(
+		s.storageClient,
+		s.iamClient,
+		s.computeService,
+		s.sqlService,
+		s.kmsClient,
+		s.loggingClient,
+		s.projectID,
+	)
 
-	for _, check := range basicChecks {
-		checkResults, _ := check.Run(ctx)
-		for _, cr := range checkResults {
-			// Only include if it has PCI mapping
-			if cr.Frameworks != nil && cr.Frameworks["PCI-DSS"] != "" {
-				results = append(results, ScanResult{
-					Control:           cr.Control,
-					Status:            cr.Status,
-					Evidence:          cr.Evidence,
-					Remediation:       cr.Remediation,
-					RemediationDetail: cr.RemediationDetail,
-					Severity:          cr.Priority.Level,
-					ScreenshotGuide:   cr.ScreenshotGuide,
-					ConsoleURL:        cr.ConsoleURL,
-					Frameworks:        cr.Frameworks,
-				})
-			}
-		}
+	checkResults, _ := pciChecker.Run(ctx)
+	for _, cr := range checkResults {
+		results = append(results, ScanResult{
+			Control:           cr.Control,
+			Status:            cr.Status,
+			Evidence:          cr.Evidence,
+			Remediation:       cr.Remediation,
+			RemediationDetail: cr.RemediationDetail,
+			Severity:          cr.Priority.Level,
+			ScreenshotGuide:   cr.ScreenshotGuide,
+			ConsoleURL:        cr.ConsoleURL,
+			Frameworks:        cr.Frameworks,
+		})
 	}
 
 	return results

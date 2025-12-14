@@ -100,6 +100,12 @@ func NewScanner(profile string) (*AWSScanner, error) {
 		return nil, fmt.Errorf("failed to load AWS config: %v", err)
 	}
 
+	return NewScannerWithConfig(cfg)
+}
+
+// NewScannerWithConfig creates an AWS scanner with a pre-configured aws.Config
+// This is useful for cross-account scanning with assumed role credentials
+func NewScannerWithConfig(cfg aws.Config) (*AWSScanner, error) {
 	return &AWSScanner{
 		cfg:                  cfg,
 		s3Client:             s3.NewFromConfig(cfg),
@@ -391,18 +397,18 @@ func (s *AWSScanner) runSOC2Checks(ctx context.Context, verbose bool) []ScanResu
 		// CC1 & CC2: Control Environment & Communication
 		checks.NewCC1Checks(s.iamClient, s.orgClient, s.ssmClient),
 		checks.NewCC2Checks(s.snsClient, s.ssmClient, s.iamClient),
-		
+
 		// CC3, CC4, CC5: Risk Assessment, Monitoring, Control Activities
 		checks.NewCC3Checks(s.gdClient, s.shClient, s.inspector2Client),
 		checks.NewCC4Checks(s.cwClient, s.configClient),
 		checks.NewCC5Checks(s.backupClient, s.kmsClient),
-		
+
 		// CC6, CC7, CC8, CC9: Access Controls, Operations, Change Mgmt, Risk Mitigation
 		checks.NewCC6Checks(s.iamClient, s.ec2Client, s.s3Client, s.ctClient),
 		checks.NewCC7Checks(s.ctClient, s.ssmClient, s.lambdaClient),
 		checks.NewCC8Checks(s.lambdaClient, s.ec2Client),
 		checks.NewCC9Checks(s.rdsClient, s.s3Client),
-		
+
 		// Also run traditional checks for backward compatibility
 		checks.NewS3Checks(s.s3Client),
 		checks.NewIAMChecks(s.iamClient),
@@ -412,6 +418,29 @@ func (s *AWSScanner) runSOC2Checks(ctx context.Context, verbose bool) []ScanResu
 		checks.NewGuardDutyChecks(s.gdClient),
 		checks.NewRDSChecks(s.rdsClient),
 		checks.NewVPCChecks(s.ec2Client),
+
+		// CIS AWS Benchmark v1.5.0+ comprehensive coverage
+		checks.NewCISManualChecks(),                                                                   // CIS 4.1-4.15
+		checks.NewAccessAnalyzerChecks(s.accessAnalyzerClient, s.cfg.Region),                          // CIS 1.8
+		checks.NewRoute53Checks(s.route53Client),                                                      // CIS 5.19
+		checks.NewSSMChecks(s.ssmClient),                                                              // CIS 10.1-10.3
+		checks.NewBeanstalkChecks(s.beanstalkClient),                                                  // CIS 10.4-10.6
+		checks.NewAPIGatewayChecks(s.apigwClient, s.apigwv2Client),                                    // CIS 10.7-10.9
+		checks.NewBackupVaultChecks(s.backupClient),                                                   // CIS 10.10-10.12
+		checks.NewMessagingChecks(s.snsClient, s.sqsClient),                                           // CIS 10.13-10.15
+		checks.NewOrganizationsAdvancedChecks(s.orgClient, s.ctClient),                                // CIS 11.1-11.4
+		checks.NewSecretsManagerChecks(s.secretsManagerClient),                                        // CIS 12.1-12.3
+		checks.NewECRChecks(s.ecrClient),                                                              // CIS 13.1-13.3
+		checks.NewDynamoDBChecks(s.dynamodbClient),                                                    // CIS 14.1-14.3
+		checks.NewCloudFormationChecks(s.cloudFormationClient),                                        // CIS 15.1-15.2
+		checks.NewACMChecks(s.acmClient),                                                              // CIS 16.1-16.2
+		checks.NewIAMExtendedChecks(s.iamClient),                                                      // CIS 17.1-17.2
+		checks.NewAuroraChecks(s.rdsClient),                                                           // CIS 18.1
+		checks.NewLambdaChecks(s.lambdaClient),                                                        // Lambda best practices
+		checks.NewECSChecks(s.ecsClient),                                                              // ECS best practices
+		checks.NewEKSChecks(s.eksClient),                                                              // EKS best practices
+		checks.NewNetworkFirewallChecks(s.nfwClient, s.ec2Client),                                     // Network Firewall
+		checks.NewSecurityServicesChecks(s.gdClient, s.macieClient, s.shClient, s.inspector2Client),   // Additional security
 	}
 	
 	for _, check := range soc2Checks {

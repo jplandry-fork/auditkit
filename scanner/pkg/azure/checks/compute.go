@@ -3,20 +3,26 @@ package checks
 import (
     "context"
     "fmt"
+    "strings"
     "time"
-    
+
     "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+    "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 )
 
 type ComputeChecks struct {
-    vmClient    *armcompute.VirtualMachinesClient
-    diskClient  *armcompute.DisksClient
+    vmClient       *armcompute.VirtualMachinesClient
+    diskClient     *armcompute.DisksClient
+    nicClient      *armnetwork.InterfacesClient
+    publicIPClient *armnetwork.PublicIPAddressesClient
 }
 
-func NewComputeChecks(vmClient *armcompute.VirtualMachinesClient, diskClient *armcompute.DisksClient) *ComputeChecks {
+func NewComputeChecks(vmClient *armcompute.VirtualMachinesClient, diskClient *armcompute.DisksClient, nicClient *armnetwork.InterfacesClient, publicIPClient *armnetwork.PublicIPAddressesClient) *ComputeChecks {
     return &ComputeChecks{
-        vmClient:   vmClient,
-        diskClient: diskClient,
+        vmClient:       vmClient,
+        diskClient:     diskClient,
+        nicClient:      nicClient,
+        publicIPClient: publicIPClient,
     }
 }
 
@@ -405,50 +411,144 @@ Security impact:
 
 func (c *ComputeChecks) CheckPublicIPs(ctx context.Context) []CheckResult {
     results := []CheckResult{}
-    
+
+    // First, build a map of all public IPs in the subscription
+    publicIPMap := make(map[string]string) // ID -> IP address
+    if c.publicIPClient != nil {
+        pipPager := c.publicIPClient.NewListAllPager(nil)
+        for pipPager.More() {
+            page, err := pipPager.NextPage(ctx)
+            if err != nil {
+                break
+            }
+            for _, pip := range page.Value {
+                if pip.ID != nil && pip.Properties != nil && pip.Properties.IPAddress != nil {
+                    publicIPMap[strings.ToLower(*pip.ID)] = *pip.Properties.IPAddress
+                }
+            }
+        }
+    }
+
     pager := c.vmClient.NewListAllPager(nil)
-    
+
     vmsWithPublicIP := []string{}
-	_ = vmsWithPublicIP // TODO: implement check
     totalVMs := 0
-    
+
     for pager.More() {
         page, err := pager.NextPage(ctx)
         if err != nil {
             break
         }
-        
+
         for _, vm := range page.Value {
             totalVMs++
-            
+            vmName := ""
+            if vm.Name != nil {
+                vmName = *vm.Name
+            }
+
             if vm.Properties != nil && vm.Properties.NetworkProfile != nil {
-                for _, nic := range vm.Properties.NetworkProfile.NetworkInterfaces {
-                    // Note: Would need to query each NIC to check for public IPs
-                    // For now, flag for manual review
-                    _ = nic
+                for _, nicRef := range vm.Properties.NetworkProfile.NetworkInterfaces {
+                    if nicRef.ID == nil || c.nicClient == nil {
+                        continue
+                    }
+
+                    // Extract resource group and NIC name from ID
+                    nicID := *nicRef.ID
+                    parts := strings.Split(nicID, "/")
+                    if len(parts) < 9 {
+                        continue
+                    }
+
+                    rgIndex := -1
+                    nicIndex := -1
+                    for i, p := range parts {
+                        if strings.EqualFold(p, "resourceGroups") && i+1 < len(parts) {
+                            rgIndex = i + 1
+                        }
+                        if strings.EqualFold(p, "networkInterfaces") && i+1 < len(parts) {
+                            nicIndex = i + 1
+                        }
+                    }
+
+                    if rgIndex == -1 || nicIndex == -1 {
+                        continue
+                    }
+
+                    rgName := parts[rgIndex]
+                    nicName := parts[nicIndex]
+
+                    // Get the NIC details
+                    nic, err := c.nicClient.Get(ctx, rgName, nicName, nil)
+                    if err != nil {
+                        continue
+                    }
+
+                    // Check each IP configuration for public IPs
+                    if nic.Properties != nil && nic.Properties.IPConfigurations != nil {
+                        for _, ipConfig := range nic.Properties.IPConfigurations {
+                            if ipConfig.Properties != nil && ipConfig.Properties.PublicIPAddress != nil && ipConfig.Properties.PublicIPAddress.ID != nil {
+                                pipID := strings.ToLower(*ipConfig.Properties.PublicIPAddress.ID)
+                                if ipAddr, ok := publicIPMap[pipID]; ok {
+                                    vmsWithPublicIP = append(vmsWithPublicIP, fmt.Sprintf("%s (%s)", vmName, ipAddr))
+                                } else {
+                                    vmsWithPublicIP = append(vmsWithPublicIP, vmName)
+                                }
+                                break // Only report once per VM
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-    
-    if totalVMs > 0 {
+
+    if len(vmsWithPublicIP) > 0 {
+        vmList := strings.Join(vmsWithPublicIP, ", ")
+        if len(vmsWithPublicIP) > 3 {
+            vmList = strings.Join(vmsWithPublicIP[:3], ", ") + fmt.Sprintf(" +%d more", len(vmsWithPublicIP)-3)
+        }
+
+        firstVM := vmsWithPublicIP[0]
+        if idx := strings.Index(firstVM, " ("); idx > 0 {
+            firstVM = firstVM[:idx]
+        }
+
         results = append(results, CheckResult{
             Control:           "CC6.1",
             Name:              "VM Public IP Exposure",
-            Status:            "INFO",
-            Evidence:          fmt.Sprintf("Review %d VMs for direct public IP assignments", totalVMs),
-            Remediation:       "Use Azure Bastion or Application Gateway instead of direct public IPs",
-            RemediationDetail: `Best practices:
-- Remove direct public IP assignments from VMs
-- Use Azure Bastion for secure management access
-- Use Application Gateway or Load Balancer for application access
-- Implement Hub-Spoke network topology with centralized ingress/egress
-
-This reduces attack surface and provides centralized security controls.`,
-            Priority:          PriorityMedium,
+            Status:            "FAIL",
+            Severity:          "HIGH",
+            Evidence:          fmt.Sprintf("%d/%d VMs have direct public IPs: %s | Violates PCI DSS 1.3.1 (restrict inbound traffic), SOC2 CC6.1 (restrict logical access)", len(vmsWithPublicIP), totalVMs, vmList),
+            Remediation:       "Remove direct public IPs, use Azure Bastion or Application Gateway",
+            RemediationDetail: fmt.Sprintf("az network nic ip-config update --remove PublicIpAddress --name ipconfig1 --nic-name %s-nic --resource-group <rg>", firstVM),
+            ScreenshotGuide:   "1. Go to Azure Portal → Virtual Machines\n2. Select VM '" + firstVM + "'\n3. Go to Networking\n4. Screenshot showing 'Public IP address' field\n5. For PCI DSS: Document that no cardholder data is accessible via public IP",
+            ConsoleURL:        "https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Compute%2FvirtualMachines",
+            Priority:          PriorityHigh,
             Timestamp:         time.Now(),
+            Frameworks: map[string]string{
+                "SOC2":    "CC6.1",
+                "PCI-DSS": "1.3.1, 1.3.2",
+                "HIPAA":   "164.312(a)(1)",
+            },
+        })
+    } else if totalVMs > 0 {
+        results = append(results, CheckResult{
+            Control:         "CC6.1",
+            Name:            "VM Public IP Exposure",
+            Status:          "PASS",
+            Evidence:        fmt.Sprintf("None of %d VMs have direct public IP addresses | Meets SOC2 CC6.1, PCI DSS 1.3.1", totalVMs),
+            Severity:        "INFO",
+            ScreenshotGuide: "1. Go to Azure Portal → Virtual Machines\n2. Screenshot showing VMs with no public IPs assigned",
+            ConsoleURL:      "https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Compute%2FvirtualMachines",
+            Priority:        PriorityInfo,
+            Timestamp:       time.Now(),
+            Frameworks: map[string]string{
+                "SOC2":    "CC6.1",
+                "PCI-DSS": "1.3.1",
+            },
         })
     }
-    
+
     return results
 }

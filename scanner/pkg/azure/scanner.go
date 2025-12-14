@@ -20,23 +20,25 @@ import (
 )
 
 type AzureScanner struct {
-	subscriptionID    string
-	cred              *azidentity.DefaultAzureCredential
-	graphClient       *msgraphsdk.GraphServiceClient
-	storageClient     *armstorage.AccountsClient
-	computeClient     *armcompute.VirtualMachinesClient
-	disksClient       *armcompute.DisksClient
-	networkClient     *armnetwork.VirtualNetworksClient
-	nsgClient         *armnetwork.SecurityGroupsClient
-	sqlClient         *armsql.ServersClient
-	sqlDBClient       *armsql.DatabasesClient
-	keyVaultClient    *armkeyvault.VaultsClient
-	monitorClient     *armmonitor.ActivityLogsClient
-	roleClient        *armauthorization.RoleAssignmentsClient
-	roleDefClient     *armauthorization.RoleDefinitionsClient
-	securityClient    *armsecurity.PricingsClient           // NEW: For Defender checks
-	autoProvisionClient *armsecurity.AutoProvisioningSettingsClient // NEW: For auto-provisioning
-	contactsClient    *armsecurity.ContactsClient            // NEW: For security contacts
+	subscriptionID      string
+	cred                *azidentity.DefaultAzureCredential
+	graphClient         *msgraphsdk.GraphServiceClient
+	storageClient       *armstorage.AccountsClient
+	computeClient       *armcompute.VirtualMachinesClient
+	disksClient         *armcompute.DisksClient
+	networkClient       *armnetwork.VirtualNetworksClient
+	nsgClient           *armnetwork.SecurityGroupsClient
+	nicClient           *armnetwork.InterfacesClient
+	publicIPClient      *armnetwork.PublicIPAddressesClient
+	sqlClient           *armsql.ServersClient
+	sqlDBClient         *armsql.DatabasesClient
+	keyVaultClient      *armkeyvault.VaultsClient
+	monitorClient       *armmonitor.ActivityLogsClient
+	roleClient          *armauthorization.RoleAssignmentsClient
+	roleDefClient       *armauthorization.RoleDefinitionsClient
+	securityClient      *armsecurity.PricingsClient               // For Defender checks
+	autoProvisionClient *armsecurity.AutoProvisioningSettingsClient // For auto-provisioning
+	contactsClient      *armsecurity.ContactsClient               // For security contacts
 }
 
 type ScanResult struct {
@@ -87,6 +89,16 @@ func NewScanner(subscriptionID string) (*AzureScanner, error) {
 	nsgClient, err := armnetwork.NewSecurityGroupsClient(subscriptionID, cred, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create NSG client: %v", err)
+	}
+
+	nicClient, err := armnetwork.NewInterfacesClient(subscriptionID, cred, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create NIC client: %v", err)
+	}
+
+	publicIPClient, err := armnetwork.NewPublicIPAddressesClient(subscriptionID, cred, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create public IP client: %v", err)
 	}
 
 	sqlClient, err := armsql.NewServersClient(subscriptionID, cred, nil)
@@ -144,6 +156,8 @@ func NewScanner(subscriptionID string) (*AzureScanner, error) {
 		disksClient:         disksClient,
 		networkClient:       networkClient,
 		nsgClient:           nsgClient,
+		nicClient:           nicClient,
+		publicIPClient:      publicIPClient,
 		sqlClient:           sqlClient,
 		sqlDBClient:         sqlDBClient,
 		keyVaultClient:      keyVaultClient,
@@ -218,7 +232,7 @@ func (s *AzureScanner) runSOC2Checks(ctx context.Context, verbose bool) []ScanRe
 		checks.NewAzureCC9Checks(),
 		checks.NewStorageChecks(s.storageClient),
 		checks.NewAADChecks(s.roleClient, s.roleDefClient, s.graphClient),
-		checks.NewComputeChecks(s.computeClient, s.disksClient),
+		checks.NewComputeChecks(s.computeClient, s.disksClient, s.nicClient, s.publicIPClient),
 		checks.NewNetworkChecks(s.nsgClient),
 		checks.NewSQLChecks(s.sqlDBClient, s.sqlClient),
 		checks.NewKeyVaultChecks(s.keyVaultClient),
@@ -259,34 +273,31 @@ func (s *AzureScanner) runPCIChecks(ctx context.Context, verbose bool) []ScanRes
 
 	if verbose {
 		fmt.Println("Running PCI-DSS v4.0 checks for Azure...")
-		fmt.Println("Note: PCI-DSS specific checks not yet implemented for Azure")
-		fmt.Println("Using basic checks with PCI framework mappings...")
+		fmt.Println("Checking all 12 PCI-DSS requirements...")
 	}
 
-	basicChecks := []checks.Check{
-		checks.NewAADChecks(s.roleClient, s.roleDefClient, s.graphClient),
-		checks.NewStorageChecks(s.storageClient),
-		checks.NewNetworkChecks(s.nsgClient),
-		checks.NewMonitoringChecks(s.monitorClient, s.subscriptionID),
-	}
+	// Use the comprehensive AzurePCIChecks implementation
+	pciChecker := checks.NewAzurePCIChecks(
+		s.storageClient,
+		s.nsgClient,
+		s.roleClient,
+		s.sqlDBClient,
+		s.monitorClient,
+	)
 
-	for _, check := range basicChecks {
-		checkResults, _ := check.Run(ctx)
-		for _, cr := range checkResults {
-			if cr.Frameworks != nil && cr.Frameworks["PCI-DSS"] != "" {
-				results = append(results, ScanResult{
-					Control:           cr.Control,
-					Status:            cr.Status,
-					Evidence:          cr.Evidence,
-					Remediation:       cr.Remediation,
-					RemediationDetail: cr.RemediationDetail,
-					Severity:          cr.Priority.Level,
-					ScreenshotGuide:   cr.ScreenshotGuide,
-					ConsoleURL:        cr.ConsoleURL,
-					Frameworks:        cr.Frameworks,
-				})
-			}
-		}
+	checkResults, _ := pciChecker.Run(ctx)
+	for _, cr := range checkResults {
+		results = append(results, ScanResult{
+			Control:           cr.Control,
+			Status:            cr.Status,
+			Evidence:          cr.Evidence,
+			Remediation:       cr.Remediation,
+			RemediationDetail: cr.RemediationDetail,
+			Severity:          cr.Priority.Level,
+			ScreenshotGuide:   cr.ScreenshotGuide,
+			ConsoleURL:        cr.ConsoleURL,
+			Frameworks:        cr.Frameworks,
+		})
 	}
 
 	return results
@@ -354,7 +365,7 @@ func (s *AzureScanner) runCISChecks(ctx context.Context, verbose bool) []ScanRes
 	checkModules := []checks.Check{
 		checks.NewAADChecks(s.roleClient, s.roleDefClient, s.graphClient),
 		checks.NewStorageChecks(s.storageClient),
-		checks.NewComputeChecks(s.computeClient, s.disksClient),
+		checks.NewComputeChecks(s.computeClient, s.disksClient, s.nicClient, s.publicIPClient),
 		checks.NewNetworkChecks(s.nsgClient),
 		checks.NewSQLChecks(s.sqlDBClient, s.sqlClient),
 		checks.NewKeyVaultChecks(s.keyVaultClient),

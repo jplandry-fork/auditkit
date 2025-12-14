@@ -2,7 +2,9 @@ package checks
 
 import (
 	"context"
+	"encoding/csv"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -341,7 +343,7 @@ func (c *IAMChecks) CheckUnusedCredentials(ctx context.Context) (CheckResult, er
 				Frameworks: GetFrameworkMappings("UNUSED_CREDENTIALS"),
 			}, nil
 		}
-		
+
 		return CheckResult{
 			Control:    "CC6.7",
 			Name:       "Unused Credentials",
@@ -353,17 +355,142 @@ func (c *IAMChecks) CheckUnusedCredentials(ctx context.Context) (CheckResult, er
 		}, nil
 	}
 
-	// Parse the CSV report to check for unused credentials
-	_ = report.Content // TODO: Parse CSV to find users with password_last_used > 90 days
+	// Parse the CSV report
+	csvReader := csv.NewReader(strings.NewReader(string(report.Content)))
+	records, err := csvReader.ReadAll()
+	if err != nil {
+		return CheckResult{
+			Control:    "CC6.7",
+			Name:       "Unused Credentials",
+			Status:     "INFO",
+			Evidence:   fmt.Sprintf("Unable to parse credential report: %v", err),
+			Priority:   PriorityInfo,
+			Timestamp:  time.Now(),
+			Frameworks: GetFrameworkMappings("UNUSED_CREDENTIALS"),
+		}, nil
+	}
+
+	if len(records) < 2 {
+		return CheckResult{
+			Control:    "CC6.7",
+			Name:       "Unused Credentials",
+			Status:     "PASS",
+			Evidence:   "No IAM users found in credential report",
+			Priority:   PriorityInfo,
+			Timestamp:  time.Now(),
+			Frameworks: GetFrameworkMappings("UNUSED_CREDENTIALS"),
+		}, nil
+	}
+
+	// Parse header to find column indices
+	header := records[0]
+	colIndex := make(map[string]int)
+	for i, col := range header {
+		colIndex[col] = i
+	}
+
+	unusedUsers := []string{}
+	unusedPasswords := []string{}
+	unusedKeys := []string{}
+	now := time.Now()
+	cutoffDate := now.AddDate(0, 0, -90) // 90 days ago
+
+	// Skip header row
+	for _, row := range records[1:] {
+		if len(row) == 0 {
+			continue
+		}
+
+		user := row[colIndex["user"]]
+		if user == "<root_account>" {
+			continue // Skip root account, handled separately
+		}
+
+		// Check password_last_used
+		if pwIdx, ok := colIndex["password_last_used"]; ok && pwIdx < len(row) {
+			pwLastUsed := row[pwIdx]
+			if pwLastUsed != "N/A" && pwLastUsed != "no_information" && pwLastUsed != "" {
+				if lastUsed, err := time.Parse(time.RFC3339, pwLastUsed); err == nil {
+					if lastUsed.Before(cutoffDate) {
+						unusedPasswords = append(unusedPasswords, user)
+					}
+				}
+			}
+		}
+
+		// Check access_key_1_last_used_date
+		if keyIdx, ok := colIndex["access_key_1_last_used_date"]; ok && keyIdx < len(row) {
+			key1Active := ""
+			if activeIdx, ok := colIndex["access_key_1_active"]; ok && activeIdx < len(row) {
+				key1Active = row[activeIdx]
+			}
+			if key1Active == "true" {
+				key1LastUsed := row[keyIdx]
+				if key1LastUsed != "N/A" && key1LastUsed != "" {
+					if lastUsed, err := time.Parse(time.RFC3339, key1LastUsed); err == nil {
+						if lastUsed.Before(cutoffDate) {
+							unusedKeys = append(unusedKeys, user+" (key1)")
+						}
+					}
+				}
+			}
+		}
+
+		// Check access_key_2_last_used_date
+		if keyIdx, ok := colIndex["access_key_2_last_used_date"]; ok && keyIdx < len(row) {
+			key2Active := ""
+			if activeIdx, ok := colIndex["access_key_2_active"]; ok && activeIdx < len(row) {
+				key2Active = row[activeIdx]
+			}
+			if key2Active == "true" {
+				key2LastUsed := row[keyIdx]
+				if key2LastUsed != "N/A" && key2LastUsed != "" {
+					if lastUsed, err := time.Parse(time.RFC3339, key2LastUsed); err == nil {
+						if lastUsed.Before(cutoffDate) {
+							unusedKeys = append(unusedKeys, user+" (key2)")
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Combine all unused credentials
+	unusedUsers = append(unusedPasswords, unusedKeys...)
+
+	if len(unusedUsers) > 0 {
+		userList := strings.Join(unusedUsers, ", ")
+		if len(unusedUsers) > 5 {
+			userList = strings.Join(unusedUsers[:5], ", ") + fmt.Sprintf(" +%d more", len(unusedUsers)-5)
+		}
+
+		return CheckResult{
+			Control:           "CC6.7",
+			Name:              "Unused Credentials",
+			Status:            "FAIL",
+			Severity:          "HIGH",
+			Evidence:          fmt.Sprintf("%d credentials unused for 90+ days: %s | Violates PCI DSS 8.1.4 (remove/disable inactive accounts within 90 days)", len(unusedUsers), userList),
+			Remediation:       "Disable or delete unused IAM credentials",
+			RemediationDetail: "aws iam update-login-profile --user-name USERNAME --password-reset-required\naws iam delete-access-key --user-name USERNAME --access-key-id KEY_ID",
+			ScreenshotGuide:   "1. Go to IAM → Users\n2. Sort by 'Last activity'\n3. Screenshot users with no recent activity\n4. For PCI DSS: Document review process for inactive accounts",
+			ConsoleURL:        "https://console.aws.amazon.com/iam/home#/users",
+			Priority:          PriorityHigh,
+			Timestamp:         time.Now(),
+			Frameworks:        GetFrameworkMappings("UNUSED_CREDENTIALS"),
+		}, nil
+	}
 
 	return CheckResult{
-		Control:    "CC6.7",
-		Name:       "Unused Credentials",
-		Status:     "PASS",
-		Evidence:   "No unused credentials found (90+ days) | Meets PCI DSS 8.1.4",
-		Priority:   PriorityInfo,
-		Timestamp:  time.Now(),
-		Frameworks: GetFrameworkMappings("UNUSED_CREDENTIALS"),
+		Control:         "CC6.7",
+		Name:            "Unused Credentials",
+		Status:          "PASS",
+		Evidence:        fmt.Sprintf("All credentials used within 90 days (checked %d users) | Meets PCI DSS 8.1.4, SOC2 CC6.7", len(records)-1),
+		Severity:        "INFO",
+		ScreenshotGuide: "1. Go to IAM → Credential Report\n2. Download report\n3. Screenshot showing recent activity for all users",
+		ConsoleURL:      "https://console.aws.amazon.com/iam/home#/credential_report",
+		Priority:        PriorityInfo,
+		Timestamp:       time.Now(),
+		Frameworks:      GetFrameworkMappings("UNUSED_CREDENTIALS"),
 	}, nil
 }
 
