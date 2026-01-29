@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuditKit - Multi-Cloud Compliance Scanner</title>
     <meta name="description" content="Open-source compliance scanner for SOC2, PCI-DSS, CMMC, HIPAA, NIST 800-53. AWS, Azure, GCP, M365 support. Shows exactly what evidence auditors need.">
+    <link rel="icon" type="image/svg+xml" href="./auditkit-logo.svg">
+    <meta property="og:title" content="AuditKit - Multi-Cloud Compliance Scanner">
+    <meta property="og:description" content="Open-source compliance scanner for SOC2, PCI-DSS, CMMC, HIPAA, NIST 800-53. AWS, Azure, GCP, M365 support.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://auditkit.io/">
+    <meta property="og:image" content="https://auditkit.io/examples/screenshots/html-report-score.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AuditKit - Multi-Cloud Compliance Scanner">
+    <meta name="twitter:description" content="Open-source compliance scanner for SOC2, PCI-DSS, CMMC, HIPAA, NIST 800-53.">
+    <meta name="twitter:image" content="https://auditkit.io/examples/screenshots/html-report-score.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,6 +33,7 @@
                 <a href="https://github.com/guardian-nexus/auditkit">GitHub</a>
                 <a href="./getting-started.html">Docs</a>
                 <a href="./examples/">Examples</a>
+                <a href="./pricing.html">Pricing</a>
                 <a href="./about.html">About</a>
                 <a href="/pro/" class="nav-cta">Get Pro</a>
             </div>
@@ -30,7 +41,7 @@
     </nav>
 
     <div class="alert-bar">
-        CMMC NOW MANDATORY: DoW contracts require CMMC compliance (effective Nov 10, 2025) &middot;
+        CMMC NOW IN EFFECT: DoW contracts now require CMMC compliance &middot;
         <a href="/pro/">Identify all 110 gaps in 30 minutes &rarr;</a>
     </div>
 
@@ -159,39 +170,15 @@
                 </div>
             </div>
 
-            <!-- Azure Arc -->
-            <div class="card card-highlight arc-card mt-4">
-                <div class="flex items-center gap-1 mb-2">
-                    <h3>Azure Arc (On-Premises)</h3>
-                    <span class="badge-pro">PRO</span>
-                </div>
-                <p>
-                    Extend compliance scanning to your on-premises servers connected via Azure Arc.
-                    AuditKit Pro pulls security assessments from Microsoft Defender for Cloud and
-                    Guest Configuration policies -- bringing hybrid environments into your compliance posture.
-                </p>
-                <div class="grid-3 mb-2">
-                    <div class="arc-feature">
-                        <strong class="text-emerald">Defender Assessments</strong>
-                        <p class="text-sm mb-0">Updates, encryption, vulnerabilities, endpoint protection</p>
-                    </div>
-                    <div class="arc-feature">
-                        <strong class="text-emerald">Guest Configuration</strong>
-                        <p class="text-sm mb-0">Azure Policy compliance for Windows/Linux baselines</p>
-                    </div>
-                    <div class="arc-feature">
-                        <strong class="text-emerald">Agent Health</strong>
-                        <p class="text-sm mb-0">Monitor Arc agent connectivity status</p>
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <a href="./providers/arc.html" class="btn btn-outline-light">Learn More</a>
-                    <a href="/pro/" class="btn btn-primary">Get Pro Access</a>
-                </div>
-            </div>
+        </div>
+    </section>
 
-            <!-- Free vs Pro -->
-            <div class="grid-2 mt-4">
+    <!-- Free vs Pro -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="text-center">Free vs Pro</h2>
+
+            <div class="grid-2" style="max-width: 900px; margin: 2rem auto 0;">
                 <div class="card">
                     <h3>Free Version</h3>
                     <ul class="feature-list">
@@ -218,7 +205,7 @@
                         <li>Drift detection</li>
                         <li>Priority support</li>
                     </ul>
-                    <div class="text-center" style="margin-top: 1.5rem;">
+                    <div class="text-center mt-4">
                         <a href="/pro/" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
@@ -348,6 +335,38 @@ export GOOGLE_CLOUD_PROJECT="your-project-id"
                         <li>You need guided implementation support</li>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section-alt">
+        <div class="container-prose">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>Does this replace my auditor?</h3>
+                <p>No. AuditKit automates technical control scanning, but you still need a CPA for SOC2 ($15-30K), a C3PAO for CMMC ($25-150K), or a QSA for PCI-DSS ($15-50K). AuditKit replaces the $30-100K technical consultant, not the certified assessor.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Does AuditKit modify my infrastructure?</h3>
+                <p>No. AuditKit is read-only. It checks configuration and generates reports. It never modifies your infrastructure. The <code>auditkit fix</code> command generates a script for you to review and run manually.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What permissions does it need?</h3>
+                <p>Read-only access only. AWS: <code>ReadOnlyAccess</code> policy. Azure: <code>Reader</code> role. GCP: <code>roles/viewer</code>. No write permissions required.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What's the difference between Free and Pro?</h3>
+                <p>Free covers SOC2, PCI-DSS, CMMC Level 1, HIPAA, and NIST 800-53 with single-account scanning. Pro adds CMMC Level 2 (110 practices), multi-account scanning, evidence package generation, continuous monitoring, drift detection, and a Desktop GUI. <a href="./pricing.html">See full comparison &rarr;</a></p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How is this different from Prowler or Scout Suite?</h3>
+                <p>Prowler and Scout Suite are security scanners -- they find vulnerabilities. AuditKit is a compliance scanner -- it maps checks to SOC2, PCI-DSS, CMMC, and other frameworks, includes evidence collection guides, and generates auditor-ready reports. Use both: Prowler for security, AuditKit for compliance.</p>
             </div>
         </div>
     </section>
