@@ -387,7 +387,20 @@ tr:last-child td { border-bottom: none; }
 }
 
 .faq-item:last-child { border-bottom: none; }
-.faq-item h3 { color: var(--text-heading); font-size: 1.2rem; margin-bottom: 0.75rem; }
+.faq-item h3 { color: var(--text-heading); font-size: 1.2rem; margin-bottom: 0.75rem; display: flex; align-items: baseline; gap: 0.75rem; }
+.faq-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--emerald);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
 .faq-item p { color: var(--text); margin-bottom: 0; }
 .faq-item p + p { margin-top: 0.75rem; }
 
