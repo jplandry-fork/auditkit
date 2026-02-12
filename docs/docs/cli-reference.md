@@ -438,7 +438,7 @@ auditkit compare
 
 ## Pro-Only Features
 
-These features require [AuditKit Pro](https://auditkit.io/pro/):
+These features require [AuditKit](https://auditkit.io/):
 
 ### Multi-Account Scanning
 

@@ -98,9 +98,9 @@ chmod +x auditkit-linux-amd64
 ./auditkit-linux-amd64 scan -provider aws -framework cmmc -format pdf -output my-report.pdf
 ```
 
-### Upgrade to AuditKit Pro (CMMC Level 2 + Pro Features)
+### Upgrade to AuditKit (CMMC Level 2 + Pro Features)
 
-AuditKit Pro includes:
+AuditKit includes:
 - **CMMC Level 2** - All 110 Level 2 practices (110 additional controls)
 - **Evidence Package Generator** - C3PAO-ready ZIP files
 - **Exception Management** - Track waivers with compensating controls
@@ -108,7 +108,7 @@ AuditKit Pro includes:
 - **Drift Detection** - Compare dev/staging/prod environments
 - **Multi-Account Scanning** - AWS Orgs, Azure MGs, GCP Folders
 
-**[Subscribe to AuditKit Pro →](../pro/)**
+**[Subscribe to AuditKit →](/)**
 
 ---
 
@@ -118,4 +118,4 @@ All examples in this directory are generated from synthetic test environments. N
 
 ---
 
-**Questions?** Email [hello@auditkit.io](mailto:hello@auditkit.io) • [Documentation](../) • [AuditKit Pro](../pro/)
+**Questions?** Email [hello@auditkit.io](mailto:hello@auditkit.io) • [Documentation](../) • [AuditKit](/)

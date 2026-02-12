@@ -41,7 +41,7 @@ Complete guide to CMMC Level 1 and Level 2 compliance with AuditKit.
 **Protects:** Controlled Unclassified Information (CUI)  
 **Required for:** DoW contractors handling CUI  
 **Assessment:** C3PAO required  
-**Cost:** $297/month with AuditKit Pro
+**Cost:** $297/month with AuditKit
 
 **What is CUI?**
 - Technical specifications
@@ -251,7 +251,7 @@ Level 2 includes all 17 Level 1 practices plus 93 additional practices across 14
 - Spam protection
 - Information input validation
 
-### What AuditKit Pro Checks (Level 2)
+### What AuditKit Checks (Level 2)
 
 **Automated (33 practices):**
 All technical controls across:
@@ -329,7 +329,7 @@ auditkit-pro evidence -framework cmmc-l2 -format html -output cmmc-l2-evidence.h
 
 **CMMC Level 2 is based on NIST SP 800-171 Rev 2**
 
-AuditKit Pro maps all 110 CMMC Level 2 practices to their corresponding NIST SP 800-171 controls.
+AuditKit maps all 110 CMMC Level 2 practices to their corresponding NIST SP 800-171 controls.
 
 **Example mapping:**
 - CMMC AC.2.007 → NIST 800-171 3.1.2
@@ -398,7 +398,7 @@ This means passing CMMC Level 2 = compliance with NIST SP 800-171.
 
 | Item | Cost Range |
 |------|------------|
-| AuditKit Pro (annual) | $3,564 |
+| AuditKit (annual) | $3,564 |
 | C3PAO assessment | $25,000-$150,000 |
 | Consultant (if needed) | $0-$50,000 |
 | Training programs | $5,000-$15,000 |
@@ -430,7 +430,7 @@ Based on C3PAO assessments, here are the most common failures:
 7. No cryptographic protection (SC.2.179)
 8. Inadequate media protection (MP.2.120)
 
-**AuditKit Pro catches all technical failures before assessment.**
+**AuditKit catches all technical failures before assessment.**
 
 ---
 

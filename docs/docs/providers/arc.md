@@ -8,9 +8,9 @@ Scan your on-premises servers connected via Azure Arc.
 
 **Status:** Pro only
 **Coverage:** Defender for Cloud assessments + Guest Configuration compliance
-**Supported in:** AuditKit Pro v0.8.2+
+**Supported in:** AuditKit v0.8.2+
 
-Azure Arc extends Azure management to your on-premises servers. AuditKit Pro can scan Arc-enabled machines for compliance by pulling:
+Azure Arc extends Azure management to your on-premises servers. AuditKit can scan Arc-enabled machines for compliance by pulling:
 
 - **Defender for Cloud Assessments** - Security recommendations and vulnerabilities
 - **Guest Configuration Compliance** - Azure Policy compliance status
@@ -112,7 +112,7 @@ auditkit-pro scan -provider arc -framework soc2 -verbose
 
 ### Desktop GUI
 
-1. Open AuditKit Pro Desktop (`http://localhost:1337`)
+1. Open AuditKit Desktop (`http://localhost:1337`)
 2. Click "Run Scan"
 3. Select "Azure Arc (On-Prem)" as provider
 4. Choose framework(s)

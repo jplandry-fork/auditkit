@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuditKit - Multi-Cloud Compliance Scanner</title>
-    <meta name="description" content="Open-source compliance scanner for SOC2, PCI-DSS, CMMC, HIPAA, NIST 800-53. AWS, Azure, GCP, M365 support. Shows exactly what evidence auditors need.">
+    <title>AuditKit — CMMC Level 2 Gap Analysis in 30 Minutes</title>
+    <meta name="description" content="Find all 110 CMMC Level 2 gaps before paying a consultant. Automated scanning for defense contractors. $297/month vs $50K+ consultants. Assessment-ready faster.">
     <link rel="icon" type="image/svg+xml" href="./auditkit-logo.svg">
-    <meta property="og:title" content="AuditKit - Multi-Cloud Compliance Scanner">
-    <meta property="og:description" content="Open-source compliance scanner for SOC2, PCI-DSS, CMMC, HIPAA, NIST 800-53. AWS, Azure, GCP, M365 support.">
+    <meta property="og:title" content="AuditKit — CMMC Level 2 Gap Analysis in 30 Minutes">
+    <meta property="og:description" content="Find all 110 CMMC Level 2 gaps before paying a consultant. $297/month vs $50K+ consultants.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://auditkit.io/">
-    <meta property="og:image" content="https://auditkit.io/examples/screenshots/html-report-score.png">
+    <meta property="og:image" content="https://auditkit.io/examples/screenshots/auditkitwebgui-dashboard.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AuditKit - Multi-Cloud Compliance Scanner">
-    <meta name="twitter:description" content="Open-source compliance scanner for SOC2, PCI-DSS, CMMC, HIPAA, NIST 800-53.">
-    <meta name="twitter:image" content="https://auditkit.io/examples/screenshots/html-report-score.png">
+    <meta name="twitter:title" content="AuditKit — CMMC Level 2 Gap Analysis in 30 Minutes">
+    <meta name="twitter:description" content="Find all 110 CMMC Level 2 gaps before paying a consultant. $297/month vs $50K+ consultants.">
+    <meta name="twitter:image" content="https://auditkit.io/examples/screenshots/auditkitwebgui-dashboard.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,19 +30,17 @@
             </a>
             <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
             <div class="nav-links">
-                <a href="https://github.com/guardian-nexus/auditkit">GitHub</a>
-                <a href="./getting-started.html">Docs</a>
-                <a href="./examples/">Examples</a>
+                <a href="/#features">Features</a>
+                <a href="/#cmmc">CMMC</a>
                 <a href="./pricing.html">Pricing</a>
-                <a href="./about.html">About</a>
-                <a href="/pro/" class="nav-cta">Get Pro</a>
+                <a href="./docs/">Docs</a>
+                <a href="https://buy.stripe.com/28E14m5MS5xM0mj4r7gnK01" class="nav-cta" onclick="if (window.auditKitConsent && window.auditKitConsent.marketing && typeof gtag === 'function') { gtag('event', 'conversion', {'send_to': 'AW-17730440946/q5TvCL37jsAbEPKdxIZC', 'value': 297.0, 'currency': 'USD'}); } return true;">Start Free Trial</a>
             </div>
         </div>
     </nav>
 
     <div class="alert-bar">
-        CMMC NOW IN EFFECT: DoW contracts now require CMMC compliance &middot;
-        <a href="/pro/">Identify all 110 gaps in 30 minutes &rarr;</a>
+        CMMC NOW IN EFFECT: All new DoW contracts now require CMMC compliance
     </div>
 
     <!-- Hero -->
@@ -50,345 +48,12 @@
     <section class="hero">
         <div class="container">
             <img src="./auditkit-logo.svg" alt="AuditKit" class="hero-logo">
-            <h1>One scanner. 10+ frameworks.<br>Four cloud providers.</h1>
+            <h1>CMMC Level 2 Gap Analysis in 30 Minutes</h1>
             <p class="subtitle">
-                Stop paying $50K per framework. AuditKit scans your cloud infrastructure for SOC2, PCI-DSS, CMMC, HIPAA, CIS Benchmarks, NIST 800-53, and more -- then tells you exactly what to fix and what evidence auditors need.
+                Identify all 110 CMMC Level 2 gaps before paying a C3PAO. Know exactly what to fix.
             </p>
 
-            <div class="flex flex-wrap justify-center gap-1 mb-3">
-                <span class="badge badge-outline">SOC2</span>
-                <span class="badge badge-outline">PCI-DSS</span>
-                <span class="badge badge-outline">CMMC</span>
-                <span class="badge badge-outline">HIPAA</span>
-                <span class="badge badge-outline">CIS Benchmarks</span>
-                <span class="badge badge-outline">NIST 800-53</span>
-                <span class="badge badge-outline">ISO 27001</span>
-                <span class="badge badge-outline">FedRAMP</span>
-                <span class="badge badge-outline">GDPR</span>
-            </div>
-
-            <div class="btn-group btn-group-center">
-                <a href="https://github.com/guardian-nexus/auditkit" class="btn btn-secondary btn-lg">View on GitHub</a>
-                <a href="#installation" class="btn btn-outline btn-lg">Quick Start</a>
-                <a href="/pro/" class="btn btn-primary btn-lg">Get Pro ($297/mo)</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Problem -->
-    <section class="section section-alt">
-        <div class="container">
-            <h2 class="text-center">The Problem</h2>
-
-            <div class="grid-3">
-                <div class="card">
-                    <h3>Compliance is Expensive</h3>
-                    <p class="mb-0">Consultants charge $50K+ per framework. SOC2, PCI, HIPAA, CMMC? That's $200K just to understand what you're missing.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Tools Don't Tell You What to Fix</h3>
-                    <p class="mb-0">Cloud security scanners find issues but don't explain how to fix them or what evidence auditors need.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Manual Evidence Collection Is Tedious</h3>
-                    <p class="mb-0">Spending weeks taking screenshots and compiling evidence packages for auditors is repetitive work that drains engineering time.</p>
-                </div>
-            </div>
-
-            <h2 class="text-center mt-4">The Solution</h2>
-
-            <div class="code-block">
-<span class="prompt">$</span> <span class="command">auditkit scan -provider aws -framework soc2 -verbose</span>
-
-<span class="comment"># Scanning 64 SOC2 controls across AWS...</span>
-
-<span class="fail">&#10007; FAIL</span> | <span class="framework">CC6.6</span> | MFA Not Enforced
-  <span class="label">Evidence:</span>    3 IAM users without MFA: admin-user, deploy-bot, john.doe
-  <span class="label">Remediation:</span> aws iam enable-mfa-device --user-name admin-user
-  <span class="label">Screenshot:</span>  IAM &rarr; Users &rarr; Security credentials &rarr; Show MFA enabled
-  <span class="label">Console URL:</span> <span class="url">https://console.aws.amazon.com/iam/home#/users</span>
-
-<span class="pass">&#10003; PASS</span> | <span class="framework">CC6.1</span> | CloudTrail Logging Enabled
-  <span class="label">Evidence:</span>    CloudTrail enabled in all regions, logs encrypted
-  <span class="label">Frameworks:</span>  SOC2 (CC6.1), PCI-DSS (10.2.2), CMMC (AU.L2-3.3.1)
-
-<span class="comment"># Scan complete: 58/64 passing (91%)</span>
-<span class="comment"># PDF report: compliance-report.pdf</span>
-<span class="comment"># Evidence tracker: evidence-tracker.html</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Multi-Cloud Coverage -->
-    <section class="section">
-        <div class="container">
-            <h2 class="text-center">Multi-Cloud Coverage</h2>
-            <p class="text-center text-muted text-lg mb-3">
-                One tool. Four cloud providers. Stop juggling separate scanners.
-            </p>
-
-            <div class="grid-4 mb-3">
-                <div class="stat">
-                    <div class="stat-number">4</div>
-                    <div class="stat-label">Cloud Providers</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">350+</div>
-                    <div class="stat-label">Total Checks</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">10+</div>
-                    <div class="stat-label">Frameworks</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">$0</div>
-                    <div class="stat-label">Free Version Cost</div>
-                </div>
-            </div>
-
-            <div class="grid-4">
-                <div class="card text-center">
-                    <h3>AWS</h3>
-                    <div class="stat-number text-emerald">90+</div>
-                    <p class="text-muted text-sm mb-0">IAM, S3, EC2, CloudTrail, KMS, RDS, VPC, SageMaker, Redshift, ElastiCache, OpenSearch</p>
-                </div>
-
-                <div class="card text-center">
-                    <h3>Azure</h3>
-                    <div class="stat-number text-emerald">64+</div>
-                    <p class="text-muted text-sm mb-0">Entra ID, Storage, NSGs, SQL, Key Vault</p>
-                </div>
-
-                <div class="card text-center">
-                    <h3>GCP</h3>
-                    <div class="stat-number text-emerald">170+</div>
-                    <p class="text-muted text-sm mb-0">Cloud Storage, IAM, Compute, SQL, KMS, Logging</p>
-                </div>
-
-                <div class="card text-center">
-                    <h3>Microsoft 365</h3>
-                    <div class="stat-number text-emerald">29+</div>
-                    <p class="text-muted text-sm mb-0">Entra ID via ScubaGear integration</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Free vs Pro -->
-    <section class="section section-alt">
-        <div class="container">
-            <h2 class="text-center">Free vs Pro</h2>
-
-            <div class="grid-2" style="max-width: 900px; margin: 2rem auto 0;">
-                <div class="card">
-                    <h3>Free Version</h3>
-                    <ul class="feature-list">
-                        <li>SOC2 complete (64 controls)</li>
-                        <li>PCI-DSS v4.0 (30+ controls)</li>
-                        <li>CMMC Level 1 (17 practices)</li>
-                        <li>HIPAA Security Rule (215 mappings)</li>
-                        <li>CIS Benchmarks (AWS, Azure, GCP)</li>
-                        <li>AWS (90+ checks), Azure, GCP, M365</li>
-                        <li>Offline mode with scan caching</li>
-                        <li>PDF/HTML/JSON/CSV reports</li>
-                        <li>Evidence collection guides</li>
-                        <li>NIST 800-53, FedRAMP, GDPR, ISO 27001 mappings</li>
-                    </ul>
-                </div>
-
-                <div class="card card-highlight">
-                    <h3>Pro Version <span class="text-emerald">($297/mo)</span></h3>
-                    <ul class="feature-list">
-                        <li>CMMC Level 2 (110 practices)</li>
-                        <li>Custom controls - define your own checks</li>
-                        <li>GCP Advanced (GKE + Vertex AI)</li>
-                        <li>Multi-account scanning</li>
-                        <li>Evidence package generator</li>
-                        <li>Exception &amp; waiver management</li>
-                        <li>Air-gapped/offline scanning (SCIF-ready)</li>
-                        <li>Continuous monitoring daemon</li>
-                        <li>Drift detection</li>
-                        <li>Desktop GUI</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <div class="text-center mt-4">
-                        <a href="/pro/" class="btn btn-primary">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Installation -->
-    <section id="installation" class="section section-dark">
-        <div class="container">
-            <h2 class="text-center">Installation</h2>
-
-            <div class="code-block"><span class="comment"># Quick install (Go required)</span>
-go install github.com/guardian-nexus/auditkit/scanner/cmd/auditkit@latest
-
-<span class="comment"># Or build from source</span>
-git clone https://github.com/guardian-nexus/auditkit.git
-cd auditkit/scanner && go build ./cmd/auditkit
-
-<span class="comment"># Run your first scan</span>
-./auditkit scan -framework soc2 -format pdf -output report.pdf
-
-<span class="comment"># Multi-framework scan</span>
-./auditkit scan -framework all -format pdf
-
-<span class="comment"># Azure scan</span>
-az login
-export AZURE_SUBSCRIPTION_ID="your-subscription-id"
-./auditkit scan -provider azure -framework soc2
-
-<span class="comment"># GCP scan</span>
-gcloud auth application-default login
-export GOOGLE_CLOUD_PROJECT="your-project-id"
-./auditkit scan -provider gcp -framework soc2</div>
-        </div>
-    </section>
-
-    <!-- See It In Action -->
-    <section class="section section-alt">
-        <div class="container">
-            <h2 class="text-center">See It In Action</h2>
-            <p class="text-center text-muted text-lg mb-3">
-                Real scan outputs and reports from actual environments
-            </p>
-
-            <div class="grid-3">
-                <div class="card">
-                    <h3>What a PASS Looks Like</h3>
-                    <p>Controls that meet compliance requirements show specific evidence of what's configured correctly.</p>
-                    <div class="code-block" style="font-size: 0.8rem;">
-<span class="pass">&#10003; PASS</span> | <span class="command">CC6.6</span> - Authentication Controls
-  Root account has MFA enabled
-  <span class="comment">&rarr; Meets SOC2 CC6.6, PCI DSS 8.3.1,
-    HIPAA 164.312(a)(2)(i)</span>
-
-<span class="pass">&#10003; PASS</span> | <span class="command">CC6.3</span> - Encryption at Rest
-  All 15 S3 buckets have encryption enabled
-  <span class="comment">&rarr; Meets SOC2 CC6.3, PCI DSS 3.4,
-    HIPAA 164.312(a)(2)(iv)</span></div>
-                </div>
-
-                <div class="card">
-                    <h3>What a FAIL Looks Like</h3>
-                    <p>Failed controls show exactly what's wrong, how to fix it, and what evidence you'll need for auditors.</p>
-                    <div class="code-block" style="font-size: 0.8rem;">
-<span class="fail">&#10007; FAIL</span> | <span class="command">CC6.1</span> - Access Controls
-  <span class="label">Issue:</span> SSH open to 0.0.0.0/0
-  Security Group: sg-0ab56571076bcff37 (port 22)
-  <span class="comment">&rarr; Violates PCI DSS 1.2.1</span>
-
-<span class="fix">Fix:</span>
-  aws ec2 revoke-security-group-ingress \
-    --group-id sg-0ab56571076bcff37 \
-    --protocol tcp --port 22 \
-    --cidr 0.0.0.0/0
-
-<span class="command">Evidence needed:</span>
-  1. Go to EC2 &rarr; Security Groups
-  2. Screenshot 'Inbound rules' tab
-  3. Show NO rules with 0.0.0.0/0 for port 22</div>
-                </div>
-
-                <div class="card">
-                    <h3>Interactive HTML Reports</h3>
-                    <p>Generate professional compliance reports with scores, failed controls, remediation steps, and direct console links.</p>
-                    <img src="./examples/screenshots/html-report-score.png" alt="HTML Report Score Dashboard" loading="lazy" style="border-radius: var(--radius); margin-bottom: 1rem;">
-                    <p class="text-center text-sm text-muted mb-0">
-                        View examples:
-                        <a href="./examples/reports/sample-aws-soc2-report.html" target="_blank" rel="noopener noreferrer">SOC2</a> &bull;
-                        <a href="./examples/reports/sample-azure-cmmc-report.html" target="_blank" rel="noopener noreferrer">CMMC</a>
-                    </p>
-                </div>
-            </div>
-
-            <div class="callout text-center mt-4" style="max-width: 700px; margin-left: auto; margin-right: auto;">
-                <p style="margin-bottom: 0.75rem;"><strong>Want to see more examples?</strong></p>
-                <p class="mb-2">Browse terminal scan outputs, PDF reports, console screenshots, and more evidence samples.</p>
-                <a href="./examples/" class="btn btn-primary">Browse All Examples &rarr;</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Who Should Use This -->
-    <section class="section">
-        <div class="container">
-            <h2 class="text-center">Who Should Use This</h2>
-
-            <div class="grid-2 mt-4">
-                <div class="card">
-                    <h3 class="text-emerald">Built For</h3>
-                    <ul class="feature-list">
-                        <li>Defense contractors needing CMMC compliance</li>
-                        <li>Startups facing SOC2 + PCI + HIPAA simultaneously</li>
-                        <li>Companies quoted $50K+ per framework</li>
-                        <li>Engineers who prefer fixing things themselves</li>
-                        <li>Multi-cloud organizations</li>
-                        <li>Teams tired of running 5 different scanners</li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-danger">Not the Right Fit If</h3>
-                    <ul class="not-fit-list">
-                        <li>You need fully managed compliance services</li>
-                        <li>You're looking for an automated certification solution</li>
-                        <li>You need vendor certifications or attestations</li>
-                        <li>You need guided implementation support</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section section-alt">
-        <div class="container-prose">
-            <h2 class="text-center">Frequently Asked Questions</h2>
-
-            <div class="faq-item">
-                <h3>Does this replace my auditor?</h3>
-                <p>No. AuditKit automates technical control scanning, but you still need a CPA for SOC2 ($15-30K), a C3PAO for CMMC ($25-150K), or a QSA for PCI-DSS ($15-50K). AuditKit replaces the $30-100K technical consultant, not the certified assessor.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3>Does AuditKit modify my infrastructure?</h3>
-                <p>No. AuditKit is read-only. It checks configuration and generates reports. It never modifies your infrastructure. The <code>auditkit fix</code> command generates a script for you to review and run manually.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3>What permissions does it need?</h3>
-                <p>Read-only access only. AWS: <code>ReadOnlyAccess</code> policy. Azure: <code>Reader</code> role. GCP: <code>roles/viewer</code>. No write permissions required.</p>
-            </div>
-
-            <div class="faq-item">
-                <h3>What's the difference between Free and Pro?</h3>
-                <p>Free covers SOC2, PCI-DSS, CMMC Level 1, HIPAA, CIS Benchmarks, NIST 800-53, and 4 more frameworks via crosswalk mappings -- with single-account scanning. Pro adds CMMC Level 2 (110 practices), multi-account scanning, evidence packages, exception management, continuous monitoring, drift detection, air-gapped mode, and a Desktop GUI. <a href="./pricing.html">See full comparison &rarr;</a></p>
-            </div>
-
-            <div class="faq-item">
-                <h3>How is this different from Prowler or Scout Suite?</h3>
-                <p>Prowler and Scout Suite are security scanners -- they find vulnerabilities. AuditKit is a compliance scanner -- it maps checks to SOC2, PCI-DSS, CMMC, and other frameworks, includes evidence collection guides, and generates auditor-ready reports. Use both: Prowler for security, AuditKit for compliance.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CMMC Pro CTA -->
-    <section class="section section-dark">
-        <div class="container text-center">
-            <h2>Need CMMC Level 2?</h2>
-            <p class="text-lg mb-3" style="color: var(--slate-300);">
-                DoW contractors handling CUI must comply. Identify all 110 gaps in 30 minutes vs 30 days.
-            </p>
-
-            <div class="grid-4 mb-3">
+            <div class="grid-4 mb-3" style="max-width: 900px; margin-left: auto; margin-right: auto;">
                 <div class="stat">
                     <div class="stat-number">110</div>
                     <div class="stat-label">CMMC Level 2 Practices</div>
@@ -407,81 +72,541 @@ export GOOGLE_CLOUD_PROJECT="your-project-id"
                 </div>
             </div>
 
-            <a href="/pro/" class="btn btn-primary btn-lg">Start 14-Day Free Trial</a>
+            <div class="btn-group btn-group-center">
+                <a href="https://buy.stripe.com/28E14m5MS5xM0mj4r7gnK01" class="btn btn-primary btn-lg" onclick="if (window.auditKitConsent && window.auditKitConsent.marketing && typeof gtag === 'function') { gtag('event', 'conversion', {'send_to': 'AW-17730440946/q5TvCL37jsAbEPKdxIZC', 'value': 297.0, 'currency': 'USD'}); } return true;">
+                    Start 14-Day Free Trial
+                </a>
+            </div>
+            <p class="text-center text-muted text-sm" style="margin-top: 1rem;">
+                14-day free trial &bull; $297/month after trial &bull; Cancel anytime
+            </p>
+        </div>
+    </section>
+
+    <!-- Cost Comparison -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="text-center">Stop Paying Consultants to Run Scans</h2>
+
+            <div class="grid-2" style="max-width: 1000px; margin: 2rem auto 0;">
+                <div class="comparison-card traditional">
+                    <h3>Hiring Consultants</h3>
+                    <div class="price">$50,000+</div>
+                    <ul>
+                        <li>Initial gap assessment: $15-30K</li>
+                        <li>Remediation guidance: $20-40K</li>
+                        <li>Documentation prep: $15-30K</li>
+                        <li>Weeks of back-and-forth</li>
+                        <li>Manual evidence collection</li>
+                        <li>One-time assessment</li>
+                        <li>Still need C3PAO ($25-75K)</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card auditkit">
+                    <h3>AuditKit (12 months)</h3>
+                    <div class="price">$3,564</div>
+                    <ul>
+                        <li>Gap analysis in 30 minutes</li>
+                        <li>Specific remediation steps included</li>
+                        <li>Evidence package generator</li>
+                        <li>Unlimited re-scans</li>
+                        <li>Automated evidence collection</li>
+                        <li>Continuous monitoring</li>
+                        <li>Still need C3PAO ($25-75K)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="text-center text-emerald text-lg" style="margin-top: 2.5rem; font-weight: 600;">
+                Save $46,000+ on prep work. Still budget for C3PAO certification.
+            </p>
+
+            <div class="callout" style="max-width: 800px; margin: 2.5rem auto 0;">
+                <h3>What AuditKit Actually Does</h3>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>AuditKit replaces expensive consultants, not C3PAO auditors.</strong> You still need a C3PAO for official certification ($25-75K), but you arrive at that assessment already knowing:
+                </p>
+                <ul style="color: var(--text); line-height: 1.8; padding-left: 1.25rem; margin-bottom: 0.75rem;">
+                    <li>Exactly which of the 110 practices you're missing</li>
+                    <li>Specific AWS/Azure/GCP configurations to fix</li>
+                    <li>What evidence the C3PAO will ask for</li>
+                    <li>That you'll pass before paying the assessment fee</li>
+                </ul>
+                <p class="mb-0">
+                    Traditional approach: Pay consultants $50K to tell you what's wrong, then pay C3PAO $50K to verify you fixed it.<br>
+                    <strong>AuditKit approach:</strong> Pay $297/month to know what's wrong, fix it yourself, then pay C3PAO $50K knowing you'll pass.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center">How It Works</h2>
+
+            <div class="container-prose">
+                <div class="code-block"><span class="comment"># 1. Install AuditKit (GitHub access provided after signup)</span>
+git clone git@github.com:guardian-nexus/auditkit-pro.git
+cd auditkit-pro/scanner
+go build ./cmd/auditkit-pro
+
+<span class="comment"># 2. Run initial CMMC Level 2 assessment (30 minutes)</span>
+./auditkit-pro scan -provider aws -framework cmmc -verbose
+
+<span class="comment"># Output shows you exactly what's missing and how to fix it</span>
+<span class="fail">&#10007; FAIL</span> | AC.L2-3.1.3 | CUI access controls missing
+  &rarr; Remediation: aws iam create-policy \
+      --policy-document file://cui-policy.json
+  &rarr; Evidence needed: IAM policy JSON + console screenshot
+
+<span class="comment"># 3. Fix issues and re-scan (unlimited)</span>
+./auditkit-pro scan -provider aws -framework cmmc -verbose
+
+<span class="comment"># 4. Generate C3PAO-ready evidence package</span>
+./auditkit-pro evidence-package -framework cmmc -output ./cmmc-evidence
+
+<span class="comment"># 5. Schedule C3PAO knowing you'll pass</span>
+<span class="pass">&#10003; All 110 practices passing - ready for C3PAO assessment</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features -->
+    <section class="section section-alt" id="features">
+        <div class="container">
+            <h2 class="text-center">Core Features</h2>
+
+            <div class="grid-3">
+                <div class="card card-flex">
+                    <h3>CMMC Level 2 Complete</h3>
+                    <p>All 110 CMMC Level 2 practices automated across AWS, Azure, GCP, and Microsoft 365. Real-time gap identification with specific remediation steps for each cloud provider.</p>
+                    <div class="code-inline">./auditkit-pro scan -framework cmmc -verbose</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>Multi-Account Scanning</h3>
+                    <p>Scan entire AWS Organizations, Azure Management Groups, and GCP Folders with one command. Unified compliance reports across all accounts. Perfect for separate dev/staging/prod environments.</p>
+                    <div class="code-inline">./auditkit-pro scan -framework cmmc --org-scan</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>GCP Advanced</h3>
+                    <p><strong>GKE Security:</strong> 10 checks for pod policies, network policies, RBAC, binary authorization.<br><br><strong>Vertex AI Compliance:</strong> 10 checks for ML model governance, data access controls, audit logging.</p>
+                    <div class="code-inline">./auditkit-pro scan -provider gcp --advanced</div>
+                </div>
+            </div>
+
+            <div class="grid-3 mt-4">
+                <div class="card card-flex">
+                    <h3>Custom Controls <span class="badge-new">NEW</span></h3>
+                    <p>Define your own security checks in YAML. Create organization-specific controls, tag requirements, naming conventions, and resource count validations. Execute custom checks alongside built-in frameworks.</p>
+                    <div class="code-inline">./auditkit-pro scan --custom-controls my-controls.yaml</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>AWS Data Services</h3>
+                    <p><strong>SageMaker:</strong> ML notebook encryption, network isolation, root access controls.<br><br><strong>Redshift + OpenSearch + ElastiCache:</strong> Encryption, audit logging, VPC isolation, backup policies.</p>
+                    <div class="code-inline">./auditkit-pro scan -provider aws -verbose</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>Offline Mode</h3>
+                    <p>Cache scan results locally for air-gapped environments. Run scans without cloud connectivity, replay cached results anytime. Essential for classified networks.</p>
+                    <div class="code-inline">./auditkit-pro scan --offline --cache-file scan.json</div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <div class="card" style="display: inline-block; max-width: 420px;">
+                    <h3>On-Prem Scanning <span class="badge-experimental">EXPERIMENTAL</span></h3>
+                    <p>Scan on-premises servers connected via <strong>Azure Arc</strong>. Pulls security assessments from Microsoft Defender for Cloud and Guest Configuration compliance.</p>
+                    <div class="code-inline">./auditkit-pro scan -provider arc -framework cmmc</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Audit Workflow -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center">Professional Audit Workflow</h2>
+            <p class="text-center text-muted text-lg mb-3">
+                Four features designed for C3PAO assessments. All work offline for air-gapped environments.
+            </p>
+
+            <div class="grid-2" style="max-width: 900px; margin: 0 auto;">
+                <div class="card card-flex">
+                    <h3>Evidence Package Generator</h3>
+                    <p>Generates auditor-ready ZIP files with screenshots, configuration dumps, logs, and documentation in the exact format C3PAOs expect. Saves 40+ hours of manual evidence collection per assessment.</p>
+                    <div class="code-inline">./auditkit-pro evidence-package -framework cmmc -output ./audit</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>Exception &amp; Waiver Management</h3>
+                    <p>Track approved exceptions with compensating controls, expiration dates, and risk acceptance documentation. Maintains audit trail for C3PAO review.</p>
+                    <div class="code-inline">./auditkit-pro exception add -control AC.1.001</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>Continuous Monitoring Daemon</h3>
+                    <p>Scheduled scans with automated alerting via syslog, email, or webhook. Detects compliance drift in real-time. Air-gapped friendly for CMMC environments.</p>
+                    <div class="code-inline">./auditkit-pro daemon start -schedule "0 2 * * *"</div>
+                </div>
+
+                <div class="card card-flex">
+                    <h3>Multi-Environment Drift Detection</h3>
+                    <p>Compare dev/staging/prod environments to identify configuration drift. Ensures consistent security posture across all environments before C3PAO assessment.</p>
+                    <div class="code-inline">./auditkit-pro drift-check -environments "dev,prod"</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evidence Package -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="text-center">C3PAO-Ready Evidence Packages</h2>
+            <p class="text-center text-muted text-lg mb-3">
+                The <code>evidence-package</code> command generates organized ZIP files with evidence for every control.
+            </p>
+
+            <div class="container-prose">
+                <div class="code-block"><span class="comment"># Generate evidence package for CMMC assessment</span>
+./auditkit-pro evidence-package -framework cmmc -output ./audit-evidence
+
+<span class="pass">&#10003; Evidence package generated: audit-evidence.zip</span></div>
+
+                <div class="code-block" style="font-size: 0.8rem; line-height: 1.8;">
+<span class="comment">audit-evidence/</span>
+&#9500;&#9472;&#9472; <span class="label">00-AUDIT-README.md</span>              <span class="comment"># Instructions for auditors</span>
+&#9500;&#9472;&#9472; <span class="label">00-EXECUTIVE-SUMMARY.md</span>         <span class="comment"># High-level summary</span>
+&#9500;&#9472;&#9472; <span class="pass">01-compliance-report.pdf</span>        <span class="comment"># PDF report</span>
+&#9500;&#9472;&#9472; <span class="pass">01-compliance-report.html</span>       <span class="comment"># HTML report (interactive)</span>
+&#9500;&#9472;&#9472; <span class="url">02-scan-results.json</span>            <span class="comment"># Machine-readable results</span>
+&#9500;&#9472;&#9472; <span class="command">03-failed-controls/</span>             <span class="comment"># Evidence for failed controls</span>
+&#9474;   &#9500;&#9472;&#9472; AC.1.001-access-control/
+&#9474;   &#9474;   &#9500;&#9472;&#9472; README.md               <span class="comment"># Control details</span>
+&#9474;   &#9474;   &#9500;&#9472;&#9472; evidence.txt            <span class="comment"># Scan evidence</span>
+&#9474;   &#9474;   &#9500;&#9472;&#9472; screenshot-guide.md     <span class="comment"># Verification steps</span>
+&#9474;   &#9474;   &#9500;&#9472;&#9472; console-urls.txt        <span class="comment"># Direct links</span>
+&#9474;   &#9474;   &#9492;&#9472;&#9472; remediation.sh          <span class="comment"># Fix script</span>
+&#9500;&#9472;&#9472; <span class="command">04-passed-controls/</span>             <span class="comment"># Evidence for passed controls</span>
+&#9500;&#9472;&#9472; <span class="command">05-manual-controls/</span>             <span class="comment"># Manual verification needed</span>
+&#9492;&#9472;&#9472; <span class="label">audit-evidence.zip</span>              <span class="comment"># Complete ZIP archive</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Results -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center">Customer Results</h2>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="text-emerald">Defense Contractor</h3>
+                    <p class="text-muted text-sm mb-2">50 employees</p>
+                    <p class="mb-0">Found 23 CMMC gaps in 28 minutes. Fixed all issues in 3 weeks. Passed C3PAO assessment on the first attempt.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-emerald">Aerospace Company</h3>
+                    <p class="text-muted text-sm mb-2">200 employees</p>
+                    <p class="mb-0">Evidence package saved 40+ hours of manual screenshot collection for SOC2 audit. Reduced compliance prep from 6 weeks to 2.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-emerald">Engineering Firm</h3>
+                    <p class="text-muted text-sm mb-2">15 employees</p>
+                    <p class="mb-0">Identified critical SSH port exposure before C3PAO assessment. Would have failed without AuditKit flagging the issue.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Desktop GUI -->
+    <section class="section section-dark">
+        <div class="container">
+            <h2 class="text-center">Desktop GUI</h2>
+            <p class="text-center text-lg mb-3" style="color: var(--slate-300);">
+                Web-based dashboard that runs locally. No cloud dependencies. Air-gap compatible.
+            </p>
+
+            <!-- Screenshot Carousel -->
+            <div class="carousel-wrapper">
+                <div class="carousel-track">
+                    <div class="carousel-slides" id="carousel-slides">
+                        <div class="carousel-slide" onclick="openLightbox(0)">
+                            <img src="./examples/screenshots/auditkitwebgui-dashboard.png" alt="Dashboard" loading="lazy">
+                            <div class="carousel-caption">
+                                <strong>Dashboard</strong>
+                                <p>Real-time compliance scores &amp; trends</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" onclick="openLightbox(1)">
+                            <img src="./examples/screenshots/auditkitwebgui-findings.png" alt="Findings Explorer" loading="lazy">
+                            <div class="carousel-caption">
+                                <strong>Findings Explorer</strong>
+                                <p>Search &amp; filter by severity</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" onclick="openLightbox(2)">
+                            <img src="./examples/screenshots/auditkitwebgui-scanhistory.png" alt="Scan History" loading="lazy">
+                            <div class="carousel-caption">
+                                <strong>Scan History</strong>
+                                <p>Browse all past scans</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn carousel-btn-prev" onclick="carouselNav(-1)" aria-label="Previous slide">&#10094;</button>
+                <button class="carousel-btn carousel-btn-next" onclick="carouselNav(1)" aria-label="Next slide">&#10095;</button>
+                <div class="carousel-dots" id="carousel-dots">
+                    <button class="carousel-dot active" onclick="carouselGo(0)" aria-label="Slide 1"></button>
+                    <button class="carousel-dot" onclick="carouselGo(1)" aria-label="Slide 2"></button>
+                    <button class="carousel-dot" onclick="carouselGo(2)" aria-label="Slide 3"></button>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Visual Dashboard</h3>
+                    <p class="mb-0">Real-time compliance scores, trends, and critical findings at a glance. Track progress across all your cloud accounts.</p>
+                </div>
+                <div class="card">
+                    <h3>Scan History &amp; Findings</h3>
+                    <p class="mb-0">Browse all past scans with search and filtering. Drill into findings by severity, framework, or provider. Export to PDF/HTML/CSV.</p>
+                </div>
+                <div class="card">
+                    <h3>Everything in One Place</h3>
+                    <p class="mb-0">Evidence packages, exception management, drift detection, and scheduled scans -- all accessible from your browser.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <div class="code-block" style="display: inline-block; text-align: left; max-width: 500px; width: 100%;"><span class="comment"># Run the Desktop GUI</span>
+export AUDITKIT_PRO_LICENSE="your-license-key"
+./auditkit-pro-desktop
+
+<span class="comment"># Browser opens to http://localhost:1337</span>
+<span class="comment"># Change port if needed:</span>
+./auditkit-pro-desktop --port 8080</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container-prose">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>Do I still need a C3PAO assessment?</h3>
+                <p>Yes, for official CMMC Level 2 certification you need a C3PAO assessment ($25-75K). AuditKit identifies gaps and generates evidence packages so you arrive at that assessment knowing you'll pass. This eliminates the risk of paying $50K for an assessment you fail.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How is this different from hiring consultants?</h3>
+                <p>Consultants charge $15-30K just to run scans and tell you what's wrong, then another $20-40K for remediation guidance. AuditKit runs the same scans for $297/month and gives you specific fix-it commands. You still may want consultants for complex architecture decisions, but you won't pay them $50K+ to run automated scans.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What's the difference between CMMC Level 1 and Level 2?</h3>
+                <p>Level 1 (17 practices) protects Federal Contract Information (FCI). Level 2 (110 practices) protects Controlled Unclassified Information (CUI). If your DoW contracts involve CUI, you need Level 2. The <a href="/community.html">Community Edition</a> includes Level 1, AuditKit includes both.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Does this work with government cloud?</h3>
+                <p>Yes, AuditKit supports both commercial cloud (AWS, Azure, GCP) and government cloud environments (AWS GovCloud, Azure Government). All 110 checks work identically across commercial and government regions.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How does multi-account scanning work?</h3>
+                <p>AuditKit scans entire AWS Organizations, Azure Management Groups, and GCP Folders with a single command. It aggregates results across all accounts and generates unified compliance reports. Perfect for organizations with separate dev/staging/prod accounts.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I re-scan after fixing issues?</h3>
+                <p>Yes, unlimited re-scanning is included. Fix issues, re-scan immediately, and track compliance progress over time. No per-scan fees, no usage limits. Most customers scan daily during their prep period.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How does the 14-day trial work?</h3>
+                <p>Click "Start 14-Day Free Trial" to begin. You'll receive GitHub access to the private auditkit-pro repository within 24 hours. Full access to CMMC Level 2 + all features. Cancel anytime during trial -- no questions asked.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do all features work in air-gapped environments?</h3>
+                <p>Yes, all features work offline including the daemon, evidence package generator, and drift detection. Designed specifically for defense contractors operating in classified/air-gapped networks.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What if I'm already working with consultants?</h3>
+                <p>Use AuditKit to validate their work. Run scans after they make changes to verify gaps are actually fixed. Many customers use this to reduce consultant hours by 50%+ since you're not paying them to manually check configurations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section section-dark" id="cmmc">
+        <div class="container text-center">
+            <h2>Know What You're Missing in 30 Minutes</h2>
+            <p class="text-lg mb-3" style="color: var(--slate-300);">
+                All 110 CMMC Level 2 practices scanned. Specific remediation steps. Evidence automation. $50K+ savings vs consultants.
+            </p>
+            <a href="https://buy.stripe.com/28E14m5MS5xM0mj4r7gnK01" class="btn btn-primary btn-lg" onclick="if (window.auditKitConsent && window.auditKitConsent.marketing && typeof gtag === 'function') { gtag('event', 'conversion', {'send_to': 'AW-17730440946/q5TvCL37jsAbEPKdxIZC', 'value': 297.0, 'currency': 'USD'}); } return true;">
+                Start 14-Day Free Trial
+            </a>
             <p class="text-sm text-on-dark-muted" style="margin-top: 1.25rem;">
-                $297/month &bull; Know what to fix before paying a C3PAO &bull; Cancel anytime
+                14-day free trial &bull; $297/month after trial &bull; Cancel anytime &bull; No setup fees
             </p>
         </div>
     </section>
 
     </main>
 
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); changeSlide(-1)" aria-label="Previous image">&#10094;</button>
+        <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); changeSlide(1)" aria-label="Next image">&#10095;</button>
+        <div class="text-center">
+            <img id="lightbox-img" src="" alt="">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-inner">
             <p style="margin-bottom: 2rem; color: var(--slate-300); font-size: 1rem;">
-                <strong style="color: var(--white);">Built by engineers who have been through the compliance process.</strong>
+                <strong style="color: var(--white);">Built for defense contractors, by engineers who understand compliance.</strong>
             </p>
 
             <div class="footer-grid">
                 <div class="footer-section">
-                    <h4>Getting Started</h4>
+                    <h4>Product</h4>
                     <ul>
-                        <li><a href="./getting-started.html">Quick Start Guide</a></li>
-                        <li><a href="./installation.html">Installation</a></li>
-                        <li><a href="./cli-reference.html">CLI Reference</a></li>
-                        <li><a href="./faq.html">FAQ</a></li>
-                        <li><a href="./pricing.html">Pricing</a></li>
+                        <li><a href="/">AuditKit</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                        <li><a href="/community.html">Community Edition (Open Source)</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="/docs/getting-started.html">Quick Start Guide</a></li>
+                        <li><a href="/docs/installation.html">Installation</a></li>
+                        <li><a href="/docs/cli-reference.html">CLI Reference</a></li>
+                        <li><a href="/docs/faq.html">FAQ</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
                     <h4>Frameworks</h4>
                     <ul>
-                        <li><a href="./frameworks/cmmc.html">CMMC</a></li>
-                        <li><a href="./frameworks/soc2.html">SOC2</a></li>
-                        <li><a href="./frameworks/pci-dss.html">PCI-DSS</a></li>
-                        <li><a href="./frameworks/hipaa.html">HIPAA</a></li>
-                        <li><a href="./frameworks/nist-800-53.html">NIST 800-53</a></li>
-                        <li><a href="./frameworks/iso27001.html">ISO 27001</a></li>
-                        <li><a href="./frameworks/fedramp.html">FedRAMP</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Cloud Providers</h4>
-                    <ul>
-                        <li><a href="./setup/aws.html">AWS Setup</a></li>
-                        <li><a href="./setup/azure.html">Azure Setup</a></li>
-                        <li><a href="./setup/gcp.html">GCP Setup</a></li>
-                        <li><a href="./setup/m365.html">M365 Setup</a></li>
-                        <li><a href="./providers/arc.html">Azure Arc (Pro)</a></li>
+                        <li><a href="/docs/frameworks/cmmc.html">CMMC</a></li>
+                        <li><a href="/docs/frameworks/soc2.html">SOC2</a></li>
+                        <li><a href="/docs/frameworks/pci-dss.html">PCI-DSS</a></li>
+                        <li><a href="/docs/frameworks/hipaa.html">HIPAA</a></li>
+                        <li><a href="/docs/frameworks/nist-800-53.html">NIST 800-53</a></li>
+                        <li><a href="/docs/frameworks/iso27001.html">ISO 27001</a></li>
+                        <li><a href="/docs/frameworks/fedramp.html">FedRAMP</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="./about.html">About</a></li>
-                        <li><a href="./examples/">Examples</a></li>
+                        <li><a href="/docs/setup/aws.html">AWS Setup</a></li>
+                        <li><a href="/docs/setup/azure.html">Azure Setup</a></li>
+                        <li><a href="/docs/setup/gcp.html">GCP Setup</a></li>
+                        <li><a href="/docs/setup/m365.html">M365 Setup</a></li>
+                        <li><a href="/examples/">Examples</a></li>
                         <li><a href="https://github.com/guardian-nexus/auditkit">GitHub</a></li>
-                        <li><a href="https://github.com/guardian-nexus/auditkit/issues">Report Bug</a></li>
-                        <li><a href="https://github.com/guardian-nexus/auditkit/discussions">Discussions</a></li>
-                        <li><a href="mailto:support@auditkit.io">Support</a></li>
-                        <li><a href="/pro/">AuditKit Pro</a></li>
+                        <li><a href="mailto:hello@auditkit.io">Contact Sales</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>Apache 2.0 License. Open source and free to use.</p>
-                <p>AuditKit v0.8.1 &bull; February 2026</p>
+                <p>Community Edition is Apache 2.0. AuditKit is commercially licensed.</p>
+                <p>&copy; 2026 AuditKit</p>
             </div>
         </div>
     </footer>
 
     <script src="./cookie-consent.js"></script>
     <script>
+        // Carousel
+        var carouselIndex = 0;
+        var totalSlides = 3;
+        var autoplayTimer;
+
+        function carouselGo(index) {
+            carouselIndex = index;
+            document.getElementById('carousel-slides').style.transform = 'translateX(-' + (index * 100) + '%)';
+            var dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
+            resetAutoplay();
+        }
+
+        function carouselNav(dir) {
+            var next = carouselIndex + dir;
+            if (next >= totalSlides) next = 0;
+            if (next < 0) next = totalSlides - 1;
+            carouselGo(next);
+        }
+
+        function resetAutoplay() {
+            clearInterval(autoplayTimer);
+            autoplayTimer = setInterval(function() { carouselNav(1); }, 5000);
+        }
+
+        resetAutoplay();
+
+        // Lightbox
+        var slides = [
+            { src: './examples/screenshots/auditkitwebgui-dashboard.png', caption: 'Dashboard - Real-time compliance scores & trends' },
+            { src: './examples/screenshots/auditkitwebgui-findings.png', caption: 'Findings Explorer - Search & filter by severity' },
+            { src: './examples/screenshots/auditkitwebgui-scanhistory.png', caption: 'Scan History - Browse all past scans' }
+        ];
+        var currentSlide = 0;
+
+        function openLightbox(index) {
+            currentSlide = index;
+            document.getElementById('lightbox').classList.add('active');
+            document.getElementById('lightbox-img').src = slides[index].src;
+            document.getElementById('lightbox-caption').textContent = slides[index].caption;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            document.getElementById('lightbox-img').src = slides[currentSlide].src;
+            document.getElementById('lightbox-caption').textContent = slides[currentSlide].caption;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') changeSlide(-1);
+                if (e.key === 'ArrowRight') changeSlide(1);
+            }
+        });
+
+        // Mobile nav toggle
         (function() {
             var toggle = document.querySelector('.nav-toggle');
             var links = document.querySelector('.nav-links');

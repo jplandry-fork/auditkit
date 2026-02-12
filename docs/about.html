@@ -21,12 +21,11 @@
             </a>
             <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
             <div class="nav-links">
-                <a href="https://github.com/guardian-nexus/auditkit">GitHub</a>
-                <a href="./getting-started.html">Docs</a>
-                <a href="./examples/">Examples</a>
+                <a href="/#features">Features</a>
+                <a href="/#cmmc">CMMC</a>
                 <a href="./pricing.html">Pricing</a>
-                <a href="./about.html" class="nav-active">About</a>
-                <a href="/pro/" class="nav-cta">Get Pro</a>
+                <a href="./docs/">Docs</a>
+                <a href="https://buy.stripe.com/28E14m5MS5xM0mj4r7gnK01" class="nav-cta" onclick="if (window.auditKitConsent && window.auditKitConsent.marketing && typeof gtag === 'function') { gtag('event', 'conversion', {'send_to': 'AW-17730440946/q5TvCL37jsAbEPKdxIZC', 'value': 297.0, 'currency': 'USD'}); } return true;">Start Free Trial</a>
             </div>
         </div>
     </nav>
@@ -51,7 +50,7 @@
                 Most compliance tools stop at detection. AuditKit goes further: every failed check includes the specific CLI command to fix it, a step-by-step screenshot guide for manual evidence collection, and direct links to the relevant cloud console page.
             </p>
             <p>
-                The free version covers SOC2, PCI-DSS v4.0, CMMC Level 1, HIPAA, and NIST 800-53 with full cross-framework mappings. The Pro version adds CMMC Level 2 (all 110 practices), multi-account scanning, evidence package generation, continuous monitoring, drift detection, and a Desktop GUI.
+                The Community Edition covers SOC2, PCI-DSS v4.0, CMMC Level 1, HIPAA, and NIST 800-53 with full cross-framework mappings. AuditKit adds CMMC Level 2 (all 110 practices), multi-account scanning, evidence package generation, continuous monitoring, drift detection, and a Desktop GUI.
             </p>
         </div>
     </section>
@@ -75,7 +74,7 @@
                 </div>
                 <div class="stat">
                     <div class="stat-number">$0</div>
-                    <div class="stat-label">Free Version Cost</div>
+                    <div class="stat-label">Community Edition</div>
                 </div>
             </div>
 
@@ -128,7 +127,7 @@ go install github.com/guardian-nexus/auditkit/scanner/cmd/auditkit@latest
                 AuditKit is built and maintained by Guardian Nexus, a team of engineers who have been through the compliance process firsthand. The tool exists because we spent too much time and money on consultants who ran automated scans and charged five figures for the output.
             </p>
             <p>
-                The free version is open source under the Apache 2.0 license. The Pro version supports the continued development of both editions and adds the advanced features that defense contractors and enterprise teams need for CMMC Level 2 and large-scale compliance programs.
+                The Community Edition is open source under the Apache 2.0 license. AuditKit supports the continued development of both editions and adds the advanced features that defense contractors and enterprise teams need for CMMC Level 2 and large-scale compliance programs.
             </p>
         </div>
     </section>
@@ -141,9 +140,9 @@ go install github.com/guardian-nexus/auditkit/scanner/cmd/auditkit@latest
                 Install AuditKit and run your first compliance scan in under 5 minutes.
             </p>
             <div class="btn-group btn-group-center">
-                <a href="./getting-started.html" class="btn btn-primary btn-lg">Quick Start Guide</a>
+                <a href="/docs/getting-started.html" class="btn btn-primary btn-lg">Quick Start Guide</a>
                 <a href="https://github.com/guardian-nexus/auditkit" class="btn btn-outline-light btn-lg">View on GitHub</a>
-                <a href="/pro/" class="btn btn-outline-light btn-lg">AuditKit Pro</a>
+                <a href="https://buy.stripe.com/28E14m5MS5xM0mj4r7gnK01" class="btn btn-outline-light btn-lg" onclick="if (window.auditKitConsent && window.auditKitConsent.marketing && typeof gtag === 'function') { gtag('event', 'conversion', {'send_to': 'AW-17730440946/q5TvCL37jsAbEPKdxIZC', 'value': 297.0, 'currency': 'USD'}); } return true;">Start Free Trial</a>
             </div>
         </div>
     </section>
@@ -154,61 +153,60 @@ go install github.com/guardian-nexus/auditkit/scanner/cmd/auditkit@latest
     <footer class="site-footer">
         <div class="footer-inner">
             <p style="margin-bottom: 2rem; color: var(--slate-300); font-size: 1rem;">
-                <strong style="color: var(--white);">Built by engineers who have been through the compliance process.</strong>
+                <strong style="color: var(--white);">Built for defense contractors, by engineers who understand compliance.</strong>
             </p>
 
             <div class="footer-grid">
                 <div class="footer-section">
-                    <h4>Getting Started</h4>
+                    <h4>Product</h4>
                     <ul>
-                        <li><a href="./getting-started.html">Quick Start Guide</a></li>
-                        <li><a href="./installation.html">Installation</a></li>
-                        <li><a href="./cli-reference.html">CLI Reference</a></li>
-                        <li><a href="./faq.html">FAQ</a></li>
-                        <li><a href="./pricing.html">Pricing</a></li>
+                        <li><a href="/">AuditKit</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                        <li><a href="/community.html">Community Edition (Open Source)</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="/docs/getting-started.html">Quick Start Guide</a></li>
+                        <li><a href="/docs/installation.html">Installation</a></li>
+                        <li><a href="/docs/cli-reference.html">CLI Reference</a></li>
+                        <li><a href="/docs/faq.html">FAQ</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
                     <h4>Frameworks</h4>
                     <ul>
-                        <li><a href="./frameworks/cmmc.html">CMMC</a></li>
-                        <li><a href="./frameworks/soc2.html">SOC2</a></li>
-                        <li><a href="./frameworks/pci-dss.html">PCI-DSS</a></li>
-                        <li><a href="./frameworks/hipaa.html">HIPAA</a></li>
-                        <li><a href="./frameworks/nist-800-53.html">NIST 800-53</a></li>
-                        <li><a href="./frameworks/iso27001.html">ISO 27001</a></li>
-                        <li><a href="./frameworks/fedramp.html">FedRAMP</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Cloud Providers</h4>
-                    <ul>
-                        <li><a href="./setup/aws.html">AWS Setup</a></li>
-                        <li><a href="./setup/azure.html">Azure Setup</a></li>
-                        <li><a href="./setup/gcp.html">GCP Setup</a></li>
-                        <li><a href="./setup/m365.html">M365 Setup</a></li>
-                        <li><a href="./providers/arc.html">Azure Arc (Pro)</a></li>
+                        <li><a href="/docs/frameworks/cmmc.html">CMMC</a></li>
+                        <li><a href="/docs/frameworks/soc2.html">SOC2</a></li>
+                        <li><a href="/docs/frameworks/pci-dss.html">PCI-DSS</a></li>
+                        <li><a href="/docs/frameworks/hipaa.html">HIPAA</a></li>
+                        <li><a href="/docs/frameworks/nist-800-53.html">NIST 800-53</a></li>
+                        <li><a href="/docs/frameworks/iso27001.html">ISO 27001</a></li>
+                        <li><a href="/docs/frameworks/fedramp.html">FedRAMP</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="./about.html">About</a></li>
-                        <li><a href="./examples/">Examples</a></li>
+                        <li><a href="/docs/setup/aws.html">AWS Setup</a></li>
+                        <li><a href="/docs/setup/azure.html">Azure Setup</a></li>
+                        <li><a href="/docs/setup/gcp.html">GCP Setup</a></li>
+                        <li><a href="/docs/setup/m365.html">M365 Setup</a></li>
+                        <li><a href="/examples/">Examples</a></li>
                         <li><a href="https://github.com/guardian-nexus/auditkit">GitHub</a></li>
-                        <li><a href="https://github.com/guardian-nexus/auditkit/issues">Report Bug</a></li>
-                        <li><a href="mailto:support@auditkit.io">Support</a></li>
-                        <li><a href="/pro/">AuditKit Pro</a></li>
+                        <li><a href="mailto:hello@auditkit.io">Contact Sales</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>Apache 2.0 License. Open source and free to use.</p>
-                <p>AuditKit v0.8.1 &bull; February 2026</p>
+                <p>Community Edition is Apache 2.0. AuditKit is commercially licensed.</p>
+                <p>&copy; 2026 AuditKit</p>
             </div>
         </div>
     </footer>

@@ -176,7 +176,7 @@ Free for most use cases. Pro for DoW contractors and advanced GCP users.
 - **Savings vs traditional:** $50,000 - $120,000
 
 **Pro version (CMMC Level 2):**
-- AuditKit Pro: $297/month = $3,564/year
+- AuditKit: $297/month = $3,564/year
 - C3PAO assessment (still required): $25,000 - $150,000
 - **Total: $28,564 - $153,564**
 - **Savings vs traditional:** $66,436 - $171,436
@@ -220,7 +220,7 @@ Free for most use cases. Pro for DoW contractors and advanced GCP users.
 **Solution:** Pro version
 
 **Costs:**
-- AuditKit Pro: $3,564/year
+- AuditKit: $3,564/year
 - C3PAO assessment (required): $25,000 - $150,000
 - Policy documentation (if needed): $10,000 - $30,000
 - **Total: $38,564 - $183,564**
@@ -263,7 +263,7 @@ Free for most use cases. Pro for DoW contractors and advanced GCP users.
 **Solution:** Pro version (only version with GKE + Vertex AI checks)
 
 **Costs:**
-- AuditKit Pro: $3,564/year
+- AuditKit: $3,564/year
 - External CPA firm (required): $15,000 - $25,000
 - **Total: $18,564 - $28,564**
 
@@ -311,7 +311,7 @@ For 10+ licenses or custom requirements, contact info@auditkit.io for enterprise
 
 ## Getting Started
 
-### Free Version
+### Community Edition
 
 ```bash
 # Clone and install
@@ -359,10 +359,10 @@ go build ./cmd/auditkit
 
 ## License Information
 
-### Free Version
+### Community Edition
 
-**License:** Apache 2.0  
-**Usage:** Commercial and personal use allowed  
+**License:** Apache 2.0
+**Usage:** Commercial and personal use allowed
 **Source code:** [github.com/guardian-nexus/auditkit](https://github.com/guardian-nexus/auditkit)
 
 ### Pro Version

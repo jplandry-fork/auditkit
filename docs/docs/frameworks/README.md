@@ -32,7 +32,7 @@ Fully tested, comprehensive coverage, used in production environments:
 - **HIPAA Security Rule** - Technical safeguards for healthcare (Note: does not cover Administrative/Physical safeguards)
 
 ### Pro Only
-Requires AuditKit Pro subscription:
+Requires AuditKit subscription:
 - **CMMC Level 2** - For DoW contractors handling CUI
 
 ---

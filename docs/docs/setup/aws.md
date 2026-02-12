@@ -179,7 +179,7 @@ aws configure
 
 **Pro version:** Scan entire AWS Organization automatically
 
-### Free Version - Using Profiles
+### Community Edition - Using Profiles
 
 ```bash
 # Configure multiple profiles

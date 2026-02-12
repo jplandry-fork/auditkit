@@ -517,7 +517,7 @@ auditkit version
 
 ## Pro Version Installation
 
-**For AuditKit Pro customers:**
+**For AuditKit customers:**
 
 1. **[Sign up for trial →](https://auditkit.io/pro/)**
 2. Receive license key via email

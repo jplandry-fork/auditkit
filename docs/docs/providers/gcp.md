@@ -737,7 +737,7 @@ gcloud logging sinks create SINK_NAME \
 
 ## Running GCP Scans
 
-### Free Version
+### Community Edition
 
 ```bash
 # Authenticate

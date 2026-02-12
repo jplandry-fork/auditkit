@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Edition - AuditKit Open Source Compliance Scanner</title>
+    <meta name="description" content="AuditKit Community Edition is a free, open-source multi-cloud compliance scanner. Apache 2.0 licensed. Scan AWS, Azure, GCP, and M365 for SOC2, PCI-DSS, CMMC, HIPAA, and more.">
+    <link rel="icon" type="image/svg+xml" href="./auditkit-logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav" aria-label="Main navigation">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="./auditkit-logo-dark.svg" alt="AuditKit">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+            <div class="nav-links">
+                <a href="/#features">Features</a>
+                <a href="/#cmmc">CMMC</a>
+                <a href="./pricing.html">Pricing</a>
+                <a href="./docs/">Docs</a>
+                <a href="https://buy.stripe.com/28E14m5MS5xM0mj4r7gnK01" class="nav-cta" onclick="if (window.auditKitConsent && window.auditKitConsent.marketing && typeof gtag === 'function') { gtag('event', 'conversion', {'send_to': 'AW-17730440946/q5TvCL37jsAbEPKdxIZC', 'value': 297.0, 'currency': 'USD'}); } return true;">Start Free Trial</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+
+    <!-- Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>AuditKit Community Edition</h1>
+            <p class="subtitle">Free, open-source multi-cloud compliance scanner. Apache 2.0.</p>
+
+            <div class="flex flex-wrap justify-center gap-1" style="margin-top: 2rem;">
+                <span class="badge badge-outline">SOC2</span>
+                <span class="badge badge-outline">PCI-DSS</span>
+                <span class="badge badge-outline">CMMC L1</span>
+                <span class="badge badge-outline">HIPAA</span>
+                <span class="badge badge-outline">CIS Benchmarks</span>
+                <span class="badge badge-outline">NIST 800-53</span>
+                <span class="badge badge-outline">ISO 27001</span>
+                <span class="badge badge-outline">FedRAMP</span>
+                <span class="badge badge-outline">GDPR</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="section">
+        <div class="container-prose">
+            <h2>Installation</h2>
+
+            <div class="code-block"><span class="comment"># Quick install (Go required)</span>
+go install github.com/guardian-nexus/auditkit/scanner/cmd/auditkit@latest
+
+<span class="comment"># Or build from source</span>
+git clone https://github.com/guardian-nexus/auditkit.git
+cd auditkit/scanner && go build ./cmd/auditkit
+
+<span class="comment"># Run your first scan</span>
+./auditkit scan -framework soc2 -format pdf -output report.pdf</div>
+
+            <p>Requires <a href="https://go.dev/dl/">Go 1.21+</a> and read-only cloud credentials. See the <a href="./docs/">documentation</a> for cloud-specific setup guides.</p>
+        </div>
+    </section>
+
+    <!-- See It In Action -->
+    <section class="section section-alt">
+        <div class="container-prose">
+            <h2>See It In Action</h2>
+
+            <div class="code-block">
+<span class="prompt">$</span> <span class="command">auditkit scan -provider aws -framework soc2 -verbose</span>
+
+<span class="comment"># Scanning 64 SOC2 controls across AWS...</span>
+
+<span class="fail">&#10007; FAIL</span> | <span class="framework">CC6.6</span> | MFA Not Enforced
+  <span class="label">Evidence:</span>    3 IAM users without MFA: admin-user, deploy-bot, john.doe
+  <span class="label">Remediation:</span> aws iam enable-mfa-device --user-name admin-user
+  <span class="label">Screenshot:</span>  IAM &rarr; Users &rarr; Security credentials &rarr; Show MFA enabled
+  <span class="label">Console URL:</span> <span class="url">https://console.aws.amazon.com/iam/home#/users</span>
+
+<span class="pass">&#10003; PASS</span> | <span class="framework">CC6.1</span> | CloudTrail Logging Enabled
+  <span class="label">Evidence:</span>    CloudTrail enabled in all regions, logs encrypted
+  <span class="label">Frameworks:</span>  SOC2 (CC6.1), PCI-DSS (10.2.2), CMMC (AU.L2-3.3.1)
+
+<span class="comment"># Scan complete: 58/64 passing (91%)</span>
+<span class="comment"># PDF report: compliance-report.pdf</span></div>
+
+            <p>Every failed check includes the specific CLI command to fix it, a step-by-step screenshot guide for manual evidence collection, and a direct link to the relevant cloud console page.</p>
+        </div>
+    </section>
+
+    <!-- Links -->
+    <section class="section">
+        <div class="container-prose">
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="https://github.com/guardian-nexus/auditkit">GitHub Repository</a> -- source code, issues, discussions</li>
+                <li><a href="./docs/">Documentation</a> -- getting started, CLI reference, framework guides, cloud setup</li>
+                <li><a href="./docs/getting-started.html">Quick Start Guide</a> -- first scan in 5 minutes</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Upsell -->
+    <section class="section section-alt">
+        <div class="container text-center">
+            <p class="text-muted" style="max-width: 540px; margin: 0 auto;">
+                Need CMMC Level 2, evidence packages, or continuous monitoring? <a href="/">AuditKit</a> adds 110 CMMC L2 practices, multi-account scanning, drift detection, and more.
+            </p>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p style="margin-bottom: 2rem; color: var(--slate-300); font-size: 1rem;">
+                <strong style="color: var(--white);">Built for defense contractors, by engineers who understand compliance.</strong>
+            </p>
+
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/">AuditKit</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                        <li><a href="/community.html">Community Edition (Open Source)</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="/docs/getting-started.html">Quick Start Guide</a></li>
+                        <li><a href="/docs/installation.html">Installation</a></li>
+                        <li><a href="/docs/cli-reference.html">CLI Reference</a></li>
+                        <li><a href="/docs/faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Frameworks</h4>
+                    <ul>
+                        <li><a href="/docs/frameworks/cmmc.html">CMMC</a></li>
+                        <li><a href="/docs/frameworks/soc2.html">SOC2</a></li>
+                        <li><a href="/docs/frameworks/pci-dss.html">PCI-DSS</a></li>
+                        <li><a href="/docs/frameworks/hipaa.html">HIPAA</a></li>
+                        <li><a href="/docs/frameworks/nist-800-53.html">NIST 800-53</a></li>
+                        <li><a href="/docs/frameworks/iso27001.html">ISO 27001</a></li>
+                        <li><a href="/docs/frameworks/fedramp.html">FedRAMP</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/docs/setup/aws.html">AWS Setup</a></li>
+                        <li><a href="/docs/setup/azure.html">Azure Setup</a></li>
+                        <li><a href="/docs/setup/gcp.html">GCP Setup</a></li>
+                        <li><a href="/docs/setup/m365.html">M365 Setup</a></li>
+                        <li><a href="/examples/">Examples</a></li>
+                        <li><a href="https://github.com/guardian-nexus/auditkit">GitHub</a></li>
+                        <li><a href="mailto:hello@auditkit.io">Contact Sales</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Community Edition is Apache 2.0. AuditKit is commercially licensed.</p>
+                <p>&copy; 2026 AuditKit</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./cookie-consent.js"></script>
+    <script>
+        (function() {
+            var toggle = document.querySelector('.nav-toggle');
+            var links = document.querySelector('.nav-links');
+            if (toggle && links) {
+                toggle.addEventListener('click', function() {
+                    var open = links.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', open);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

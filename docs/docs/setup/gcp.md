@@ -201,7 +201,7 @@ gcloud projects describe $GOOGLE_CLOUD_PROJECT
 
 **Pro version:** Scan entire Organization/Folder automatically
 
-### Free Version - Switching Projects
+### Community Edition - Switching Projects
 
 ```bash
 # Scan first project

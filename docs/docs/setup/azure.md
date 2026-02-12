@@ -186,7 +186,7 @@ az account show
 
 **Pro version:** Scan entire Management Group automatically
 
-### Free Version - Switching Subscriptions
+### Community Edition - Switching Subscriptions
 
 ```bash
 # Scan first subscription
